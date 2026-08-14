@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eleviq GrowthOS — Operating Dashboard</title>
+<style>
+  :root {
+    --bg: #f4f6fa;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --border: #e3e8f0;
+    --border-2: #cdd6e4;
+    --text: #0f172a;
+    --muted: #5b6b83;
+    --dim: #8a97ab;
+    --sidebar: #0f172a;
+    --sidebar-2: #16223a;
+    --cyan: #0ea5e9;
+    --lime: #65a30d;
+    --green: #16a34a;
+    --amber: #d97706;
+    --red: #dc2626;
+    --violet: #7c3aed;
+    --radius: 14px;
+    --mono: "Cascadia Mono","JetBrains Mono",Consolas,"Segoe UI Mono",monospace;
+    --shadow: 0 1px 2px rgba(15,23,42,.04), 0 6px 18px -6px rgba(15,23,42,.08);
+    --shadow-lg: 0 2px 4px rgba(15,23,42,.05), 0 16px 40px -16px rgba(15,23,42,.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+    display: flex; min-height: 100vh;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---------- Sidebar ---------- */
+  aside {
+    width: 244px; flex: none; position: fixed; inset: 0 auto 0 0; z-index: 40;
+    background: linear-gradient(180deg, var(--sidebar), #0b1322);
+    color: #cbd5e1; display: flex; flex-direction: column;
+  }
+  .brand { display: flex; align-items: center; gap: .6rem; padding: 1.15rem 1.25rem 1rem; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .brand .mark { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, var(--cyan), var(--lime)); display: grid; place-items: center; font-weight: 800; color: #fff; font-size: .95rem; box-shadow: 0 6px 16px -6px rgba(14,165,233,.7); }
+  .brand .t { font-weight: 700; font-size: .92rem; color: #fff; letter-spacing: .02em; }
+  .brand .s { font-size: .66rem; color: #7d8ca8; letter-spacing: .14em; text-transform: uppercase; }
+  nav.side { flex: 1; padding: .9rem .7rem; overflow-y: auto; }
+  nav.side .navlabel { font-size: .64rem; text-transform: uppercase; letter-spacing: .12em; color: #5d6b84; padding: .6rem .7rem .35rem; }
+  nav.side a { display: flex; align-items: center; gap: .65rem; padding: .5rem .7rem; border-radius: 9px; color: #94a3b8; font-size: .84rem; margin-bottom: .1rem; transition: background .15s, color .15s; }
+  nav.side a:hover { background: rgba(255,255,255,.05); color: #e2e8f0; text-decoration: none; }
+  nav.side a.active { background: linear-gradient(90deg, rgba(14,165,233,.16), rgba(101,163,13,.08)); color: #fff; }
+  nav.side a .ico { width: 20px; text-align: center; font-size: .95rem; }
+  nav.side a.active .ico { filter: drop-shadow(0 0 6px rgba(14,165,233,.6)); }
+  .side-foot { padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,.06); }
+  .side-foot .daybox { background: var(--sidebar-2); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: .6rem .75rem; }
+  .side-foot .daybox .l { font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; color: #5d6b84; }
+  .side-foot .daybox .v { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: #7dd3fc; margin-top: .15rem; }
+  .side-foot .sync { font-size: .68rem; color: #5d6b84; margin-top: .5rem; display: flex; align-items: center; gap: .4rem; }
+  .side-foot .sync .dot { width: 7px; height: 7px; border-radius: 50%; background: #475569; }
+  .side-foot .sync.ok .dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .side-foot .sync.ok { color: #86efac; }
+
+  /* ---------- Main ---------- */
+  main { margin-left: 244px; flex: 1; min-width: 0; padding: 0 1.6rem 3rem; }
+
+  header.top {
+    position: sticky; top: 0; z-index: 30; margin: 0 -1.6rem;
+    background: rgba(244,246,250,.86); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: .75rem 1.6rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  header.top .crumbs { font-size: .78rem; color: var(--dim); }
+  header.top .crumbs b { color: var(--muted); font-weight: 600; }
+  header.top .crumbs .sep { margin: 0 .35rem; }
+  .top-right { margin-left: auto; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .pill { font-size: .74rem; color: var(--muted); border: 1px solid var(--border-2); background: var(--surface); padding: .3rem .75rem; border-radius: 999px; font-family: var(--mono); white-space: nowrap; }
+  .pill b { color: var(--text); font-weight: 600; }
+  .pill.hot { border-color: rgba(14,165,233,.4); color: var(--cyan); background: rgba(14,165,233,.06); }
+  .btn-sync { display: inline-flex; align-items: center; gap: .4rem; font-size: .76rem; color: var(--cyan); background: var(--surface); border: 1px solid var(--border-2); padding: .34rem .8rem; border-radius: 9px; cursor: pointer; font-family: var(--mono); }
+  .btn-sync:hover { border-color: var(--cyan); background: rgba(14,165,233,.06); }
+
+  .pagehead { padding: 1.6rem 0 .9rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .pagehead h1 { font-size: 1.55rem; font-weight: 800; letter-spacing: -.01em; }
+  .pagehead h1 .accent { color: var(--cyan); }
+  .pagehead p { color: var(--muted); font-size: .88rem; margin-top: .2rem; }
+  .pagehead .legend { display: flex; gap: .8rem; flex-wrap: wrap; font-size: .74rem; color: var(--muted); }
+  .pagehead .legend i { font-style: normal; display: inline-flex; align-items: center; gap: .35rem; }
+  .sw { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+
+  section { margin-top: 1.4rem; }
+  .sec-head { display: flex; align-items: baseline; gap: .6rem; margin-bottom: .7rem; }
+  .sec-head h2 { font-size: 1rem; font-weight: 700; }
+  .sec-head .sub { color: var(--dim); font-size: .78rem; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .card-pad { padding: 1.1rem 1.25rem; }
+
+  /* ---------- KPI ---------- */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 1rem; }
+  .kpi { padding: 1rem 1.1rem; transition: box-shadow .2s, transform .2s; }
+  .kpi:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .kpi .row { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; }
+  .kpi .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+  .kpi .val { font-family: var(--mono); font-size: 1.6rem; font-weight: 800; margin-top: .3rem; font-variant-numeric: tabular-nums; }
+  .kpi .val small { font-size: .78rem; color: var(--dim); font-weight: 500; }
+  .kpi .target { font-size: .74rem; color: var(--dim); margin-top: .25rem; }
+  .kpi .target b { color: var(--muted); font-weight: 600; }
+  .kpi .track { height: 5px; border-radius: 99px; background: #eef2f7; margin-top: .7rem; overflow: hidden; }
+  .kpi .track i { display: block; height: 100%; width: 0; border-radius: 99px; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+  .kpi .src { font-size: .68rem; color: var(--dim); margin-top: .4rem; }
+
+  .pillok { font-size: .68rem; font-weight: 700; padding: .18rem .55rem; border-radius: 999px; white-space: nowrap; }
+  .p-green { color: var(--green); background: rgba(22,163,74,.1); }
+  .p-amber { color: var(--amber); background: rgba(217,119,6,.1); }
+  .p-red { color: var(--red); background: rgba(220,38,38,.1); }
+  .p-cyan { color: var(--cyan); background: rgba(14,165,233,.1); }
+  .p-grey { color: var(--dim); background: rgba(138,151,171,.12); }
+
+  /* ---------- Charts row ---------- */
+  .charts { display: grid; grid-template-columns: 1.7fr 1fr; gap: 1rem; }
+  @media (max-width: 1024px) { .charts { grid-template-columns: 1fr; } }
+  svg text { font-family: var(--mono); fill: var(--dim); font-size: 11px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; flex-wrap: wrap; }
+  .chart-head h3 { font-size: .98rem; font-weight: 700; }
+  .chart-head .sub { font-size: .74rem; color: var(--dim); }
+  .chart-head .sub b { color: var(--muted); font-weight: 600; }
+  .legend-inline { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .74rem; color: var(--muted); margin-top: .6rem; }
+  .legend-inline i { font-style: normal; display: inline-flex; align-items: center; gap: .4rem; }
+
+  /* ---------- Market ---------- */
+  .mkt-row { display: flex; flex-direction: column; gap: .8rem; margin-top: .4rem; }
+  .mkt { display: grid; grid-template-columns: 86px 1fr 130px; gap: .8rem; align-items: center; font-size: .82rem; }
+  .mkt .name b { font-weight: 600; }
+  .mkt .name small { display: block; color: var(--dim); font-size: .7rem; }
+  .mkt .mbar { height: 10px; border-radius: 6px; background: #eef2f7; overflow: hidden; }
+  .mkt .mbar i { display: block; height: 100%; width: 0; border-radius: 6px; transition: width 1s cubic-bezier(.2,.8,.2,1); }
+  .mkt .note { font-size: .7rem; color: var(--muted); text-align: right; font-family: var(--mono); }
+  .warn-chips { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .9rem; }
+  .wch { font-size: .7rem; color: var(--muted); border: 1px dashed rgba(220,38,38,.4); background: rgba(220,38,38,.04); padding: .18rem .55rem; border-radius: 999px; }
+  .wch b { color: var(--red); font-weight: 600; }
+
+  /* ---------- Table ---------- */
+  .tbl { width: 100%; border-collapse: collapse; font-size: .84rem; }
+  .tbl th { text-align: left; color: var(--dim); font-size: .68rem; text-transform: uppercase; letter-spacing: .07em; padding: .6rem .9rem; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  .tbl td { padding: .7rem .9rem; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl td b { color: var(--text); font-weight: 600; }
+  .tbl .subrow td { background: var(--surface-2); font-size: .79rem; padding-top: .2rem; padding-bottom: .2rem; }
+  .tbl .subrow td:first-child { border-left: 3px solid var(--cyan); }
+  .tbl tbody tr.expandable { cursor: pointer; }
+  .tbl tbody tr.expandable:hover td { background: #fbfcfe; }
+  .chev { display: inline-block; transition: transform .2s; color: var(--dim); font-size: .7rem; margin-left: .3rem; }
+  tr.open .chev { transform: rotate(90deg); }
+
+  /* ---------- Blockers ---------- */
+  .blocker { display: flex; gap: .8rem; align-items: flex-start; border: 1px solid var(--border); border-left-width: 4px; border-radius: 10px; padding: .8rem 1rem; margin-bottom: .6rem; background: var(--surface); }
+  .blocker.red { border-left-color: var(--red); }
+  .blocker.yellow { border-left-color: var(--amber); }
+  .blocker .b-title { font-weight: 600; font-size: .87rem; color: var(--text); }
+  .blocker .b-sub { color: var(--muted); font-size: .8rem; margin-top: .15rem; }
+  .blocker .b-meta { font-size: .72rem; color: var(--dim); margin-top: .3rem; font-family: var(--mono); }
+  .b-ico { font-size: 1.05rem; line-height: 1.3; }
+
+  /* ---------- Roadmap ---------- */
+  .rtrack { position: relative; height: 108px; margin-top: 1.4rem; }
+  .rtrack .axis { position: absolute; left: 0; right: 0; bottom: 24px; height: 2px; background: var(--border); }
+  .tick { position: absolute; bottom: 12px; transform: translateX(-50%); text-align: center; color: var(--dim); font-family: var(--mono); font-size: .66rem; }
+  .tick::before { content: ""; position: absolute; left: 50%; top: -18px; width: 1px; height: 10px; background: var(--border-2); }
+  .rb { position: absolute; bottom: 42px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: .68rem; font-weight: 700; letter-spacing: .02em; color: #0b1322; box-shadow: var(--shadow); }
+  .rb small { font-weight: 500; opacity: .75; font-size: .62rem; margin-left: .3rem; }
+  .rb.c1 { background: #7dd3fc; left: 0%; width: 41.6%; }
+  .rb.c2 { background: #bef264; left: 16.6%; width: 83.4%; }
+  .rb.c3 { background: #c4b5fd; left: 66.6%; width: 33.4%; }
+  .rb.c4 { background: #6ee7b7; left: 16.6%; width: 75%; }
+  .now-line { position: absolute; top: -6px; bottom: 16px; width: 2px; background: var(--amber); box-shadow: 0 0 8px rgba(217,119,6,.6); z-index: 3; }
+  .now-line::after { content: "NOW"; position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: .6rem; color: var(--amber); font-weight: 800; }
+  .rlegend { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.1rem; font-size: .74rem; color: var(--muted); }
+  .rlegend i { font-style: normal; display: inline-flex; align-items: center; gap: .4rem; }
+  .rlegend .sw { width: 13px; height: 13px; border-radius: 4px; display: inline-block; }
+  .future { margin-top: 1.1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: .85rem; }
+  .fcard { border: 1px dashed var(--border-2); background: var(--surface-2); border-radius: 11px; padding: .8rem .95rem; }
+  .fcard h4 { font-size: .8rem; color: var(--cyan); margin-bottom: .25rem; }
+  .fcard p { font-size: .78rem; color: var(--muted); }
+  .fcard .when { font-family: var(--mono); font-size: .67rem; color: var(--dim); margin-top: .35rem; }
+
+  /* ---------- Insights ---------- */
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 900px) { .cols2 { grid-template-columns: 1fr; } }
+  .list { list-style: none; }
+  .list li { position: relative; padding: .42rem 0 .42rem 1.5rem; font-size: .83rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .list li:last-child { border-bottom: none; }
+  .list li::before { position: absolute; left: 0; top: .5rem; }
+  .list.opp li::before { content: "▲"; color: var(--green); font-size: .78rem; }
+  .list.risk li::before { content: "●"; color: var(--red); font-size: .62rem; top: .66rem; }
+  .list li b { color: var(--text); font-weight: 600; }
+  .learn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; }
+  .learn { padding: 1rem 1.15rem; }
+  .learn .tag { font-size: .66rem; text-transform: uppercase; letter-spacing: .09em; color: var(--cyan); font-weight: 700; }
+  .learn p { font-size: .84rem; color: var(--muted); margin-top: .3rem; }
+
+  /* ---------- To-dos ---------- */
+  .actions { list-style: none; }
+  .actions li { display: flex; gap: .7rem; align-items: center; padding: .62rem .1rem; border-bottom: 1px solid var(--border); font-size: .85rem; }
+  .actions li:last-child { border-bottom: none; }
+  .actions label { cursor: pointer; display: flex; gap: .7rem; align-items: center; flex: 1; }
+  .actions input { accent-color: var(--green); width: 16px; height: 16px; flex: none; cursor: pointer; }
+  .actions .txt.done { color: var(--dim); text-decoration: line-through; }
+  .actions .owner { font-size: .7rem; color: var(--cyan); background: rgba(14,165,233,.08); border: 1px solid rgba(14,165,233,.2); padding: .12rem .5rem; border-radius: 999px; font-family: var(--mono); white-space: nowrap; }
+
+  footer { margin-top: 2.4rem; padding-top: 1.1rem; border-top: 1px solid var(--border); color: var(--dim); font-size: .76rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+  footer b { color: var(--muted); font-weight: 600; }
+
+  @media (max-width: 820px) {
+    aside { display: none; }
+    main { margin-left: 0; padding: 0 1rem 3rem; }
+    header.top { margin: 0 -1rem; padding: .7rem 1rem; }
+    .mkt { grid-template-columns: 76px 1fr; }
+    .mkt .note { grid-column: 2; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<aside>
+  <div class="brand">
+    <div class="mark">E</div>
+    <div><div class="t">Eleviq GrowthOS</div><div class="s">Marketing Command</div></div>
+  </div>
+  <nav class="side" id="sidenav">
+    <div class="navlabel">Workspace</div>
+    <a href="#overview"><span class="ico">◎</span> Overview</a>
+    <a href="#trajectory"><span class="ico">📈</span> Trajectory</a>
+    <a href="#markets"><span class="ico">🌍</span> Markets</a>
+    <a href="#campaigns"><span class="ico">🚀</span> Campaigns</a>
+    <a href="#roadmap"><span class="ico">🗺️</span> Roadmap</a>
+    <a href="#experiments"><span class="ico">🔬</span> Experiments</a>
+    <a href="#insights"><span class="ico">🧠</span> Insights</a>
+    <a href="#actions"><span class="ico">📋</span> To-dos</a>
+    <div class="navlabel">Support</div>
+    <a href="dashboard.md"><span class="ico">📄</span> Source (md)</a>
+  </nav>
+  <div class="side-foot">
+    <div class="daybox">
+      <div class="l">MyHobbyPlan · 90-day window</div>
+      <div class="v" id="daytxt">Day — / 90</div>
+    </div>
+    <div class="sync" id="sync-badge"><span class="dot"></span><span id="sync-txt">connecting…</span></div>
+  </div>
+</aside>
+
+<main>
+  <header class="top">
+    <div class="crumbs">Eleviq / <b>MyHobbyPlan</b><span class="sep">/</span><span>Operating Dashboard</span></div>
+    <div class="top-right">
+      <span class="pill" id="today"></span>
+      <span class="pill hot">Day <b id="daynum">—</b>/90 · <b id="remnum">—</b> left</span>
+      <button class="btn-sync" id="btn-sync" title="Re-read dashboard.md">↻ Refresh</button>
+    </div>
+  </header>
+
+  <div class="pagehead" id="overview">
+    <div>
+      <h1>Operating <span class="accent">Dashboard</span></h1>
+      <p>Edward's daily command center · 2,000 MyHobbyPlan installs in 90 days (organic-first, APPROVED 2026-08-13)</p>
+    </div>
+    <div class="legend">
+      <i><span class="sw" style="background:var(--green)"></span> On track</i>
+      <i><span class="sw" style="background:var(--amber)"></span> At risk / blocked</i>
+      <i><span class="sw" style="background:var(--cyan)"></span> Waiting on input</i>
+      <i><span class="sw" style="background:var(--dim)"></span> Not started</i>
+    </div>
+  </div>
+
+  <section id="kpis">
+    <div class="sec-head"><h2>Key Metrics</h2><span class="sub">targets from approved strategy · actuals marked UNKNOWN until Play Console capture</span></div>
+    <div class="kpi-grid" id="kpi-grid"></div>
+  </section>
+
+  <section id="trajectory">
+    <div class="charts">
+      <div class="card card-pad">
+        <div class="chart-head">
+          <div>
+            <h3>Install Trajectory</h3>
+            <div class="sub">Planned = approved checkpoints · actuals beyond baseline <b>UNKNOWN</b> (never invented)</div>
+          </div>
+          <span class="pill">Wk 0 → 12</span>
+        </div>
+        <div id="traj-chart"></div>
+        <div class="legend-inline">
+          <i><span class="sw" style="height:3px;width:22px;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--lime))"></span> planned trajectory</i>
+          <i><span class="sw" style="background:var(--lime);border-radius:50%"></span> baseline 50+ (FACT)</i>
+          <i><span class="sw" style="background:var(--amber);border-radius:50%"></span> phase checkpoints</i>
+        </div>
+      </div>
+      <div class="card card-pad" id="markets">
+        <div class="chart-head">
+          <div>
+            <h3>Market Priority</h3>
+            <div class="sub">download + subscribe · research 2026-08-13</div>
+          </div>
+        </div>
+        <div class="mkt-row" id="mkt-row"></div>
+        <div class="warn-chips" id="warn-chips"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="campaigns">
+    <div class="sec-head"><h2>Active Campaigns</h2><span class="sub">click a row to expand its record</span></div>
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Campaign</th><th>Objective</th><th>Funnel</th><th>Status</th></tr></thead>
+        <tbody id="camp-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="sec-head"><h2>Roadmap & Future Plans</h2><span class="sub">weeks auto-computed from 2026-08-13 start</span></div>
+    <div class="card card-pad">
+      <div class="rtrack" id="rtrack"></div>
+      <div class="rlegend">
+        <i><span class="sw" style="background:#7dd3fc"></span> C1 ASO Foundation</i>
+        <i><span class="sw" style="background:#bef264"></span> C2 US/English Launch</i>
+        <i><span class="sw" style="background:#c4b5fd"></span> C3 Localization Wave</i>
+        <i><span class="sw" style="background:#6ee7b7"></span> C4 Kenya Community</i>
+        <i><span class="sw" style="background:var(--amber)"></span> NOW position</i>
+      </div>
+      <div class="future">
+        <div class="fcard"><h4>Website + SEO (phase 2)</h4><p>Landing page + informational content cluster feeding the Play listing.</p><div class="when">PLANNED · after Wk 6</div></div>
+        <div class="fcard"><h4>Paid test (conditional)</h4><p>~€30–60/day CAC validation only if Wk 4 (500 installs) looks unreachable organic-first. Needs Edward's approval.</p><div class="when">OPTION · not approved</div></div>
+        <div class="fcard"><h4>Anitrace strategy</h4><p>Context gaps remain (field users, data, pricing — UNKNOWN). Blocked on Edward.</p><div class="when">PENDING · post-window</div></div>
+        <div class="fcard"><h4>LostNFoundHub strategy</h4><p>Kenya/Africa initial market approved; live status, monetization, vertical priority UNKNOWN.</p><div class="when">PENDING · post-window</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiments">
+    <div class="sec-head"><h2>Experiment Queue</h2><span class="sub">one element at a time · ≥ 7 days · 95% confidence</span></div>
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>ID</th><th>Experiment</th><th>Campaign</th><th>Status</th></tr></thead>
+        <tbody id="exp-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="blockers">
+    <div class="sec-head"><h2>Blocker Watch</h2><span class="sub">what is blocking execution right now</span></div>
+    <div id="blocker-list"></div>
+  </section>
+
+  <section id="insights">
+    <div class="cols2">
+      <div class="card card-pad"><h3 style="color:var(--green);font-size:.92rem;margin-bottom:.2rem">▲ Opportunities</h3><ul class="list opp" id="opp-list"></ul></div>
+      <div class="card card-pad"><h3 style="color:var(--red);font-size:.92rem;margin-bottom:.2rem">● Risks</h3><ul class="list risk" id="risk-list"></ul></div>
+    </div>
+    <div class="sec-head" style="margin-top:1.5rem"><h2>Recent Learnings</h2></div>
+    <div class="learn-grid" id="learn-grid"></div>
+  </section>
+
+  <section id="actions">
+    <div class="sec-head"><h2>To-Dos & Next Actions</h2><span class="sub">click to tick · saved in this browser (localStorage)</span></div>
+    <div class="card card-pad"><ul class="actions" id="action-list"></ul></div>
+  </section>
+
+  <footer>
+    <span>Source of truth: <b>dashboard.md</b> · edits → Refresh or wait for auto-sync</span>
+    <span>Rendered <b id="rendered"></b> · last sync <b id="lastsync">—</b></span>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var DATA = {
+    start: "2026-08-13T00:00:00",
+    days: 90,
+    target: 2000,
+    baseline: 50,
+    phases: [ {wk:4, at:500}, {wk:8, at:1000}, {wk:10, at:1500}, {wk:12, at:2000} ],
+    kpis: [
+      { label: "Installs (lifetime)", val: "50+", note: "of 2,000", target: "Wk4: 500 · Wk12: 2,000", src: "Live listing (FACT)", bar: 2.5, barCls: "lime", planned: true },
+      { label: "Rating", val: "—", note: "none shown", target: "≥ 4.0 hold", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false },
+      { label: "Store listing CTR", val: "—", note: "no data", target: "Above peers' median", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false },
+      { label: "Store listing conversion", val: "—", note: "no data", target: "Improve on baseline", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false },
+      { label: "1-day retention", val: "—", note: "no data", target: "No decline", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false },
+      { label: "Trial → paid", val: "—", note: "no data", target: "Monitor vs 4.8% benchmark", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false }
+    ],
+    markets: [
+      { name: "US", sub: "download 4 / subscribe 5", note: "priority #1 · English live", bar: 100, grad: "linear-gradient(90deg,var(--cyan),#38bdf8)" },
+      { name: "Japan", sub: "subscribe 5 · renewal elite", note: "#2 spend market", bar: 82, grad: "linear-gradient(90deg,#0ea5e9,#7dd3fc)" },
+      { name: "South Korea", sub: "~75% Android", note: "premium Android mix", bar: 64, grad: "linear-gradient(90deg,#6366f1,#a5b4fc)" },
+      { name: "Germany", sub: "best product fit", note: "EU anchor", bar: 46, grad: "linear-gradient(90deg,#14b8a6,#5eead4)" }
+    ],
+    warn: ["India", "Brazil", "Indonesia", "Mexico", "Turkey", "Egypt"],
+    campaigns: [
+      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Awaiting baseline + pricing", c: "p-cyan" }, path: "campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
+      { id: "C2", name: "US/English Launch", obj: "2,000 installs, US-first (English live, zero cost)", funnel: "AWARENESS → ACTIVATION", status: { t: "Awaiting baseline + pricing", c: "p-cyan" }, path: "campaigns/c2-us-english-launch/", steps: ["Approved","Record built","Listing converts (C1)","Reviews program","Community presence","Results + learnings"] },
+      { id: "C3", name: "Localization Wave", obj: "Japan → Germany/Korea localized listings", funnel: "CONVERSION", status: { t: "Blocked · translation pack review", c: "p-amber" }, path: "campaigns/c3-localization-wave/", steps: ["Approved","Record built","Translation pack live","Native quality check","Local keyword research","Per-locale listings"] },
+      { id: "C4", name: "Kenya Community", obj: "Brand proof + zero-cost community presence", funnel: "AWARENESS → ADVOCACY", status: { t: "Starts after C1 baseline", c: "p-grey" }, path: "campaigns/c4-kenya-community/", steps: ["Approved","Record built","C1 baseline","Founder story","Community presence","Results + learnings"] }
+    ],
+    blockers: [
+      { lvl: "red", ico: "🔴", title: "Subscription pricing (tiers + price points) — UNKNOWN", sub: "Blocks final listing copy.", meta: "Owner: Edward" },
+      { lvl: "red", ico: "🔴", title: "Play Console baseline (CTR, impressions, search terms, geo mix) — UNKNOWN", sub: "Blocks C1 execution — no listing change before capture.", meta: "Owner: Edward" },
+      { lvl: "yellow", ico: "🟡", title: "Translation pack under Google Play review", sub: "Blocks C3 and any metadata edit — each edit resets review.", meta: "Action: confirm outcome + timing" }
+    ],
+    experiments: [
+      ["E1", "Icon A/B", "C1"], ["E2", "Short description A/B", "C1"], ["E3", "First screenshot A/B", "C1"],
+      ["E4", "In-app review timing", "C2"], ["E5", "Notification timing", "C2"],
+      ["E6", "JA hobby-framing listing", "C3"], ["E7", "DE hiking/cycling framing", "C3"],
+      ["E8", "Kenya value-first posts", "C4"]
+    ],
+    opps: [
+      "Own <b>\"hobby planning\"</b> — unclaimed ASO real estate on Google Play.",
+      "US = #1 app-spend market; English already live → zero-cost, highest ceiling.",
+      "Japan/Korea = subscription-elite markets (renewal / premium Android mix).",
+      "Live listing wastes its highest-weight field: title is \"MyHobbyPlan\" with no keyword."
+    ],
+    risks: [
+      "Baseline near-zero (50+ installs, no rating) — 2,000 is ~40x lifetime; ambitious organic-first (may need paid test or phased target).",
+      "Unverified capabilities must never appear in public copy.",
+      "Fast movers: AI-native entrants + Weather Channel Android push.",
+      "High-download/low-revenue traps (India, Brazil, Indonesia, Mexico, Turkey, Egypt)."
+    ],
+    learnings: [
+      { tag: "Category", txt: "\"Hobby planning\" is unclaimed; competitors are single-sport score tools." },
+      { tag: "Monetization", txt: "Trust is the category's #1 complaint — a trust-first free tier is a strategic weapon." },
+      { tag: "Markets", txt: "Download volume alone is a trap — US/Japan/Korea are the download+subscribe priorities." }
+    ],
+    actions: [
+      { txt: "Campaign records C1–C4 built", owner: "done · 2026-08-14", done: true },
+      { txt: "Confirm subscription pricing (free/premium + price points)", owner: "Edward", done: false },
+      { txt: "Capture Play Console baseline numbers", owner: "Edward", done: false },
+      { txt: "Confirm translation pack review outcome + timing", owner: "Edward", done: false },
+      { txt: "Draft listing copy (title, short desc, full desc) for approval", owner: "Commander", done: false }
+    ]
+  };
+
+  var START = new Date(DATA.start);
+  var elapsed = Math.floor((new Date() - START) / 86400000);
+  var day = Math.min(Math.max(elapsed + 1, 1), DATA.days + 1);
+  var remaining = Math.max(DATA.days - elapsed, 0);
+
+  var NS = "http://www.w3.org/2000/svg";
+  function svg(tag, attrs) {
+    var el = document.createElementNS(NS, tag);
+    for (var k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  }
+  function el(id) { return document.getElementById(id); }
+  function parseNum(s) {
+    if (!s) return null;
+    var m = String(s).replace(/,/g, "").match(/-?[\d.]+/);
+    return m ? parseFloat(m[0]) : null;
+  }
+
+  /* ---------- rendering ---------- */
+  function renderDateInfo() {
+    el("today").textContent = new Date().toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+    el("daynum").textContent = day;
+    el("remnum").textContent = remaining;
+    el("daytxt").textContent = "Day " + day + " / " + DATA.days + " · " + remaining + " left";
+  }
+
+  function buildTrajectory() {
+    var W = 820, H = 250, padL = 46, padR = 14, padT = 16, padB = 30;
+    var maxY = DATA.target;
+    var xOf = function (wk) { return padL + (wk / 12) * (W - padL - padR); };
+    var yOf = function (v) { return padT + (1 - v / maxY) * (H - padT - padB); };
+    var host = el("traj-chart");
+    host.innerHTML = "";
+    var s = svg("svg", { viewBox: "0 0 " + W + " " + H, width: "100%", height: "100%", preserveAspectRatio: "xMidYMid meet" });
+    host.appendChild(s);
+
+    [0, 500, 1000, 1500, 2000].forEach(function (v) {
+      var y = yOf(v);
+      s.appendChild(svg("line", { x1: padL, y1: y, x2: W - padR, y2: y, stroke: "var(--border)", "stroke-width": 1 }));
+      var t = svg("text", { x: padL - 8, y: y + 4, "text-anchor": "end" });
+      t.textContent = v >= 1000 ? (v / 1000) + "k" : v;
+      s.appendChild(t);
+    });
+    [0, 2, 4, 6, 8, 10, 12].forEach(function (wk) {
+      var x = xOf(wk);
+      s.appendChild(svg("line", { x1: x, y1: padT, x2: x, y2: H - padB, stroke: "var(--border)", "stroke-width": 1, "stroke-dasharray": "3 4" }));
+      var t = svg("text", { x: x, y: H - padB + 16, "text-anchor": "middle" });
+      t.textContent = "Wk " + wk;
+      s.appendChild(t);
+    });
+
+    var pts = DATA.phases.map(function (p) { return [xOf(p.wk), yOf(Math.min(p.at, maxY))]; });
+    var all = [[xOf(0), yOf(DATA.baseline)]].concat(pts);
+    var linePts = all.map(function (p) { return p[0] + "," + p[1]; }).join(" ");
+    var areaPts = linePts + " " + all[all.length - 1][0] + "," + (H - padB) + " " + all[0][0] + "," + (H - padB);
+
+    var defs = svg("defs", {});
+    var g1 = svg("linearGradient", { id: "trajgrad", x1: 0, y1: 0, x2: 0, y2: 1 });
+    g1.appendChild(svg("stop", { offset: "0%", "stop-color": "rgba(14,165,233,.22)" }));
+    g1.appendChild(svg("stop", { offset: "100%", "stop-color": "rgba(14,165,233,0)" }));
+    var g2 = svg("linearGradient", { id: "trajstroke", x1: 0, y1: 0, x2: 1, y2: 0 });
+    g2.appendChild(svg("stop", { offset: "0%", "stop-color": "var(--cyan)" }));
+    g2.appendChild(svg("stop", { offset: "100%", "stop-color": "var(--lime)" }));
+    defs.appendChild(g1); defs.appendChild(g2);
+    s.appendChild(defs);
+
+    var area = svg("path", { d: "M" + areaPts.replace(/ /g, " L"), fill: "url(#trajgrad)", opacity: "0", style: "transition:opacity 1s .6s" });
+    var line = svg("path", { d: "M" + linePts.replace(/ /g, " L"), fill: "none", stroke: "url(#trajstroke)", "stroke-width": 2.5, "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": "1400", "stroke-dashoffset": "1400", style: "transition:stroke-dashoffset 1.5s .15s cubic-bezier(.3,.7,.3,1)" });
+    s.appendChild(area);
+    s.appendChild(line);
+
+    all.forEach(function (p, i) {
+      var dot = svg("circle", { cx: p[0], cy: p[1], r: i === 0 ? 5 : 4, fill: i === 0 ? "var(--lime)" : "var(--amber)", style: "opacity:0;transition:opacity .4s " + (0.8 + i * 0.12) + "s" });
+      s.appendChild(dot);
+      var lbl = svg("text", { x: p[0], y: p[1] - 9, "text-anchor": "middle", fill: i === 0 ? "var(--lime)" : "var(--amber)", "font-weight": "700", style: "opacity:0;transition:opacity .4s " + (0.8 + i * 0.12) + "s" });
+      lbl.textContent = i === 0 ? "baseline 50+" : "Wk " + DATA.phases[i - 1].wk + " · " + DATA.phases[i - 1].at;
+      s.appendChild(lbl);
+      setTimeout(function () { dot.style.opacity = 1; lbl.style.opacity = 1; }, 850 + i * 120);
+    });
+    setTimeout(function () { line.style.strokeDashoffset = 0; area.style.opacity = 1; }, 150);
+  }
+
+  function renderKpis() {
+    var grid = el("kpi-grid");
+    grid.innerHTML = "";
+    var clsMap = { lime: "linear-gradient(90deg,var(--cyan),var(--lime))", cyan: "linear-gradient(90deg,#0ea5e9,#38bdf8)", amber: "linear-gradient(90deg,#f59e0b,#fbbf24)", red: "linear-gradient(90deg,#ef4444,#f87171)", grey: "repeating-linear-gradient(90deg,#cdd6e4 0 5px,transparent 5px 10px)" };
+    DATA.kpis.forEach(function (k) {
+      var card = document.createElement("div");
+      card.className = "card kpi";
+      card.innerHTML =
+        '<div class="row"><div class="label">' + k.label + '</div>' +
+        '<span class="pillok ' + (k.bar > 0 ? "p-green" : "p-grey") + '">' + (k.bar > 0 ? "on plan" : "no data") + '</span></div>' +
+        '<div class="val">' + k.val + ' <small>' + k.note + '</small></div>' +
+        '<div class="target">target: <b>' + k.target + '</b></div>' +
+        '<div class="track"><i style="background:' + clsMap[k.barCls] + '"></i></div>' +
+        '<div class="src">' + k.src + '</div>';
+      grid.appendChild(card);
+      setTimeout(function () { card.querySelector(".track i").style.width = k.bar + "%"; }, 200);
+    });
+  }
+
+  function renderMarkets() {
+    var row = el("mkt-row");
+    row.innerHTML = "";
+    DATA.markets.forEach(function (m, i) {
+      var d = document.createElement("div");
+      d.className = "mkt";
+      d.innerHTML = '<div class="name"><b>' + m.name + '</b><small>' + m.sub + '</small></div>' +
+        '<div class="mbar"><i style="width:0;background:' + m.grad + '"></i></div>' +
+        '<div class="note">' + m.note + '</div>';
+      row.appendChild(d);
+      setTimeout(function () { d.querySelector(".mbar i").style.width = m.bar + "%"; }, 200 + i * 140);
+    });
+    el("warn-chips").innerHTML = '<span class="wch" style="border-style:solid">high download / <b>low subscription</b>:</span>' +
+      DATA.warn.map(function (w) { return '<span class="wch">' + w + '</span>'; }).join("");
+  }
+
+  function renderCampaigns() {
+    var body = el("camp-body");
+    body.innerHTML = "";
+    DATA.campaigns.forEach(function (c) {
+      var stepsHtml = c.steps.map(function (s, i) {
+        return '<div style="padding:.1rem 0;color:' + (i < 2 ? "var(--green)" : "var(--dim)") + '">' + (i < 2 ? "✔ " : "○ ") + s + "</div>";
+      }).join("");
+      var tr = document.createElement("tr");
+      tr.className = "expandable";
+      tr.innerHTML =
+        '<td><b>' + c.id + ' — ' + c.name + '</b><span class="chev">▸</span></td>' +
+        '<td>' + c.obj + '</td>' +
+        '<td style="font-family:var(--mono);font-size:.74rem;color:var(--dim)">' + c.funnel + '</td>' +
+        '<td><span class="pillok ' + c.status.c + '">' + c.status.t + '</span></td>';
+      var sub = document.createElement("tr");
+      sub.className = "subrow";
+      sub.style.display = "none";
+      sub.innerHTML = '<td colspan="4">' +
+        '<div style="display:flex;gap:1.4rem;flex-wrap:wrap;align-items:flex-start;padding:.5rem 0">' +
+          '<div style="min-width:200px"><b style="color:var(--text)">Record steps</b>' + stepsHtml + '</div>' +
+          '<div style="min-width:200px"><b style="color:var(--text)">Record path</b><div style="font-family:var(--mono);font-size:.76rem;color:var(--cyan);margin-top:.25rem">' + c.path + '</div></div>' +
+        '</div></td>';
+      body.appendChild(tr);
+      body.appendChild(sub);
+      tr.addEventListener("click", function () {
+        var open = sub.style.display !== "none";
+        sub.style.display = open ? "none" : "table-row";
+        tr.classList.toggle("open", !open);
+      });
+    });
+  }
+
+  function renderRoadmap() {
+    var track = el("rtrack");
+    track.innerHTML = '<div class="axis"></div>' +
+      '<div class="rb c1">C1 ASO <small>wk 1–5</small></div>' +
+      '<div class="rb c2">C2 US Launch <small>wk 2–12</small></div>' +
+      '<div class="rb c3">C3 Localization <small>wk 9–12</small></div>' +
+      '<div class="rb c4">C4 Kenya <small>wk 3–12</small></div>';
+    for (var wk = 0; wk <= 12; wk++) {
+      var t = document.createElement("span");
+      t.className = "tick";
+      t.style.left = (wk / 12) * 100 + "%";
+      t.textContent = "W" + wk;
+      track.appendChild(t);
+    }
+    var nl = document.createElement("div");
+    nl.className = "now-line";
+    nl.style.left = Math.max(Math.min((elapsed / DATA.days) * 100, 99), 0) + "%";
+    track.appendChild(nl);
+  }
+
+  function renderBlockers() {
+    var box = el("blocker-list");
+    box.innerHTML = "";
+    DATA.blockers.forEach(function (b) {
+      var d = document.createElement("div");
+      d.className = "blocker " + b.lvl;
+      d.innerHTML = '<span class="b-ico">' + b.ico + '</span>' +
+        '<div><div class="b-title">' + b.title + '</div><div class="b-sub">' + b.sub + '</div><div class="b-meta">' + b.meta + '</div></div>';
+      box.appendChild(d);
+    });
+  }
+
+  function renderExperiments() {
+    var body = el("exp-body");
+    body.innerHTML = "";
+    DATA.experiments.forEach(function (e) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td><b>" + e[0] + "</b></td><td>" + e[1] + "</td><td>" + e[2] + "</td>" +
+        '<td><span class="pillok p-grey">queued</span></td>';
+      body.appendChild(tr);
+    });
+  }
+
+  function renderInsights() {
+    el("opp-list").innerHTML = DATA.opps.map(function (o) { return "<li>" + o + "</li>"; }).join("");
+    el("risk-list").innerHTML = DATA.risks.map(function (r) { return "<li>" + r + "</li>"; }).join("");
+    var lg = el("learn-grid");
+    lg.innerHTML = "";
+    DATA.learnings.forEach(function (l) {
+      var d = document.createElement("div");
+      d.className = "card learn";
+      d.innerHTML = '<div class="tag">' + l.tag + '</div><p>' + l.txt + '</p>';
+      lg.appendChild(d);
+    });
+  }
+
+  var STORE_KEY = "eleviq-actions-v1";
+  function loadActions() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || null; } catch (e) { return null; }
+  }
+  function renderActions() {
+    var saved = loadActions();
+    var box = el("action-list");
+    box.innerHTML = "";
+    DATA.actions.forEach(function (a, i) {
+      var done = saved ? saved[i] : a.done;
+      var li = document.createElement("li");
+      li.innerHTML = '<label><input type="checkbox" data-i="' + i + '"' + (done ? " checked" : "") + '>' +
+        '<span class="txt' + (done ? " done" : "") + '">' + a.txt + '</span>' +
+        '<span class="owner">' + a.owner + '</span></label>';
+      box.appendChild(li);
+    });
+    box.querySelectorAll("input").forEach(function (inp) {
+      inp.addEventListener("change", function () {
+        var arr = loadActions() || DATA.actions.map(function (a) { return a.done; });
+        arr[+this.dataset.i] = this.checked;
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); } catch (e) {}
+        this.parentElement.querySelector(".txt").classList.toggle("done", this.checked);
+      });
+    });
+  }
+
+  function renderAll() {
+    renderDateInfo();
+    buildTrajectory();
+    renderKpis();
+    renderMarkets();
+    renderCampaigns();
+    renderRoadmap();
+    renderBlockers();
+    renderExperiments();
+    renderInsights();
+    renderActions();
+  }
+
+  /* ---------- scroll-spy nav ---------- */
+  function initNav() {
+    var links = document.querySelectorAll("nav.side a");
+    var map = {};
+    links.forEach(function (l) {
+      var id = (l.getAttribute("href") || "").replace("#", "");
+      if (id) map[id] = l;
+    });
+    var secs = ["overview", "kpis", "trajectory", "markets", "campaigns", "roadmap", "experiments", "blockers", "insights", "actions"];
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove("active"); });
+          var target = en.target.id;
+          var name = target === "kpis" ? "overview" : target;
+          if (map[name]) map[name].classList.add("active");
+        }
+      });
+    }, { rootMargin: "-20% 0px -60% 0px" });
+    secs.forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  }
+
+  /* ---------- live sync (fetch dashboard.md) ---------- */
+  function setSync(ok, txt) {
+    var badge = el("sync-badge");
+    var t = el("sync-txt");
+    badge.classList.toggle("ok", ok);
+    t.textContent = txt || (ok ? "live sync · dashboard.md" : "snapshot mode (file://)");
+    if (ok) el("lastsync").textContent = new Date().toLocaleTimeString();
+  }
+  function bodyOf(md, heading) {
+    var i = md.indexOf(heading);
+    if (i < 0) return "";
+    var from = i + heading.length;
+    var n2 = md.indexOf("\n## ", from);
+    var n3 = md.indexOf("\n### ", from);
+    var stops = [n2, n3].filter(function (n) { return n > 0; });
+    return md.slice(from, stops.length ? Math.min.apply(null, stops) : md.length);
+  }
+  function tableRows(block) {
+    var rows = [];
+    block.split(/\r?\n/).forEach(function (line) {
+      line = line.trim();
+      if (line.indexOf("|") !== 0) return;
+      var cells = line.replace(/^\||\|$/g, "").split("|").map(function (c) { return c.trim().replace(/\*\*/g, ""); });
+      if (!/[A-Za-z0-9]/.test(cells.join(" "))) return;
+      rows.push(cells);
+    });
+    if (rows.length) rows.shift();
+    return rows;
+  }
+  function chipOf(t) {
+    t = (t || "").toLowerCase();
+    if (t.indexOf("blocked") >= 0 || t.indexOf("at risk") >= 0) return "p-amber";
+    if (t.indexOf("awaiting") >= 0 || t.indexOf("waiting") >= 0) return "p-cyan";
+    if (t.indexOf("approved") >= 0 || t.indexOf("complete") >= 0 || t.indexOf("running") >= 0) return "p-green";
+    return "p-grey";
+  }
+  function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+  function parsePhases(md) {
+    var re = /Wk\s+(\d+):\s*([\d,]+)/g, m, out = [];
+    while ((m = re.exec(md))) out.push({ wk: +m[1], at: parseInt(m[2].replace(/,/g, ""), 10) });
+    if (out.length) DATA.phases = out;
+  }
+  function parseCampaigns(md) {
+    var existing = {};
+    DATA.campaigns.forEach(function (c) { existing[c.id] = c; });
+    var rows = tableRows(bodyOf(md, "## 🚀 Active Campaigns"));
+    var out = [];
+    rows.forEach(function (r) {
+      var m = r[0].match(/^(C\d+)\s*[—–-]\s*(.+)$/);
+      var id = m ? m[1] : r[0];
+      var name = m ? m[2] : r[0];
+      var old = existing[id];
+      out.push({
+        id: id, name: name, obj: r[1] || "", funnel: r[2] || "",
+        status: { t: r[3] || "", c: chipOf(r[3]) },
+        path: old ? old.path : ("campaigns/" + slug(id) + "-" + slug(name) + "/"),
+        steps: old ? old.steps : ["Approved", "Record built", "Baseline", "Execute", "Results", "Learnings"]
+      });
+    });
+    if (out.length) DATA.campaigns = out;
+  }
+  function parseBlockers(md) {
+    var rows = tableRows(bodyOf(md, "## ⚠️ Blocker Watch"));
+    var out = [];
+    rows.forEach(function (r) {
+      var icon = (r[0].match(/[🔴🟡🟢]/) || ["🔴"])[0];
+      out.push({
+        lvl: icon === "🟡" ? "yellow" : icon === "🟢" ? "green" : "red",
+        ico: icon, title: r[0].replace(/[🔴🟡🟢]\s*/, ""), sub: r[1] || "", meta: r[2] || ""
+      });
+    });
+    if (out.length) DATA.blockers = out;
+  }
+  function parseMetrics(md) {
+    var rows = tableRows(bodyOf(md, "## 📈 Metrics Snapshot"));
+    var map = {};
+    rows.forEach(function (r) { map[r[0]] = { cur: r[1], tgt: r[2], src: r[3] || "" }; });
+    DATA.kpis.forEach(function (k) {
+      var m = map[k.label];
+      if (!m) return;
+      if (m.cur) k.val = m.cur;
+      if (m.tgt) k.target = m.tgt;
+      if (m.src) k.src = m.src;
+      var num = parseNum(m.cur), tnum = parseNum(m.tgt);
+      if (num != null && tnum && tnum > 0) {
+        k.bar = Math.min(num / tnum * 100, 100);
+        k.barCls = k.bar >= 80 ? "lime" : k.bar >= 40 ? "cyan" : "amber";
+        k.note = "";
+      } else { k.bar = 0; k.barCls = "grey"; k.note = "no data"; }
+    });
+    var bl = map["Installs (lifetime)"];
+    if (bl) { var n = parseNum(bl.cur); if (n != null) DATA.baseline = n; }
+  }
+  function parseExperiments(md) {
+    var rows = tableRows(bodyOf(md, "## 🔬 Experiment Queue"));
+    var out = rows.filter(function (r) { return /^E\d+/.test(r[0]); }).map(function (r) { return [r[0], r[1] || "", r[2] || ""]; });
+    if (out.length) DATA.experiments = out;
+  }
+  function listItems(block, re) {
+    var out = [];
+    block.split(/\r?\n/).forEach(function (line) {
+      line = line.trim();
+      if (line.indexOf("- ") !== 0) return;
+      var txt = line.replace(/^-\s*/, "").replace(re, "").trim();
+      if (txt) out.push(txt);
+    });
+    return out;
+  }
+  function parseInsights(md) {
+    var opp = listItems(bodyOf(md, "### Opportunities"), /[🟢]/g);
+    var risk = listItems(bodyOf(md, "### Risks"), /[🔴🟡]/g);
+    if (opp.length) DATA.opps = opp;
+    if (risk.length) DATA.risks = risk;
+    var lr = [];
+    bodyOf(md, "## 🧠 Recent Learnings").split(/\r?\n/).forEach(function (line) {
+      var m = line.trim().match(/^-\s*\*\*([^*]+)\*\*:\s*(.+)$/);
+      if (m) lr.push({ tag: m[1], txt: m[2] });
+    });
+    if (lr.length) DATA.learnings = lr;
+  }
+  function parseActions(md) {
+    var out = [];
+    bodyOf(md, "## 📋 Recommended Next Actions").split(/\r?\n/).forEach(function (line) {
+      var m = line.trim().match(/^(\d+)\.\s*(.*)$/);
+      if (!m) return;
+      var body = m[2];
+      var done = body.indexOf("✅") >= 0;
+      var om = body.match(/\*\*([^*]+)\*\*/);
+      var owner = om ? om[1] : (done ? "done" : "—");
+      var txt = body.replace(/^[✅⏳▶️⚪🟡🔴]\s*/, "").replace(/\*\*[^*]+\*\*:\s*/, "").replace(/\*\*/g, "").trim();
+      out.push({ txt: txt, owner: owner, done: done });
+    });
+    if (out.length) DATA.actions = out;
+  }
+  function applyMd(md) {
+    var tgt = md.match(/Target\s+[█░]+\s*([\d,]+)\s*installs/);
+    if (tgt) { var n = parseInt(tgt[1].replace(/,/g, ""), 10); if (n > 0) DATA.target = n; }
+    parsePhases(md);
+    parseCampaigns(md);
+    parseBlockers(md);
+    parseMetrics(md);
+    parseExperiments(md);
+    parseInsights(md);
+    parseActions(md);
+    renderAll();
+  }
+  async function fetchDashboard() {
+    try {
+      var res = await fetch("dashboard.md?t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error(res.status);
+      var md = await res.text();
+      applyMd(md);
+      setSync(true);
+    } catch (e) {
+      setSync(false);
+    }
+  }
+
+  /* ---------- boot ---------- */
+  el("rendered").textContent = new Date().toLocaleString();
+  renderAll();
+  initNav();
+  el("btn-sync").addEventListener("click", function () {
+    el("sync-txt").textContent = "syncing…";
+    fetchDashboard();
+  });
+  fetchDashboard();
+  setInterval(fetchDashboard, 300000);
+  setInterval(function () {
+    var e = Math.floor((new Date() - START) / 86400000);
+    var d = Math.min(Math.max(e + 1, 1), DATA.days + 1);
+    var r = Math.max(DATA.days - e, 0);
+    el("daynum").textContent = d;
+    el("remnum").textContent = r;
+    el("daytxt").textContent = "Day " + d + " / " + DATA.days + " · " + r + " left";
+  }, 60000);
+})();
+</script>
+</body>
+</html>
