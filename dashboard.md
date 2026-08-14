@@ -111,6 +111,17 @@ None running. One element at a time, >= 7 days, 95% confidence.
 
 ---
 
+## 🏢 Company — Eleviq Technologies (Level 1)
+
+- **Identity:** Eleviq Technologies (prev. BinaryBytez · Binarybytez Online) · technology company · Kenya → international.
+- **Model:** two engines — Services (cash flow, expertise, access) + Products (IP, recurring revenue, scale). Product share grows over time.
+- **Divisions (9):** Software & Product Development · Web & Digital Solutions · AI & Intelligent Automation · Cloud & IT Solutions · Digital Marketing & Growth · Consulting · Proprietary Software Products · Partnerships & Business Development · Research & Innovation.
+- **Products:** MyHobbyPlan (ACTIVE · pricing CONFIRMED) · Anitrace (strategy pending) · LostNFoundHub (strategy pending) — independent product businesses under the Eleviq umbrella.
+- **Governance:** product decisions never auto-propagate across products; Edward is the final decision-maker.
+- **Canonical source:** `company/business-structure.md` (v1.0 · CURRENT).
+
+---
+
 ## 📋 Recommended Next Actions
 
 1. ✅ Campaign records C1–C4 built (2026-08-14).
