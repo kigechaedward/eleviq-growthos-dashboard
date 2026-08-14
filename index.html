@@ -498,10 +498,10 @@
     ],
     warn: ["India", "Brazil", "Indonesia", "Mexico", "Turkey", "Egypt"],
     campaigns: [
-      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Copy ready · await approval + baseline", c: "p-cyan" }, path: "campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
-      { id: "C2", name: "US/English Launch", obj: "2,000 installs, US-first (English live, zero cost)", funnel: "AWARENESS → ACTIVATION", status: { t: "Awaiting baseline", c: "p-cyan" }, path: "campaigns/c2-us-english-launch/", steps: ["Approved","Record built","Listing converts (C1)","Reviews program","Community presence","Results + learnings"] },
-      { id: "C3", name: "Localization Wave", obj: "Japan → Germany/Korea localized listings", funnel: "CONVERSION", status: { t: "Translation pack ready · await submission", c: "p-amber" }, path: "campaigns/c3-localization-wave/", steps: ["Approved","Record built","Translation pack live","Native quality check","Local keyword research","Per-locale listings"] },
-      { id: "C4", name: "Kenya Community", obj: "Brand proof + zero-cost community presence", funnel: "AWARENESS → ADVOCACY", status: { t: "Starts after C1 baseline", c: "p-grey" }, path: "campaigns/c4-kenya-community/", steps: ["Approved","Record built","C1 baseline","Founder story","Community presence","Results + learnings"] }
+      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Copy ready · await approval + baseline", c: "p-cyan" }, path: "projects/myhobbyplan/marketing/campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
+      { id: "C2", name: "US/English Launch", obj: "2,000 installs, US-first (English live, zero cost)", funnel: "AWARENESS → ACTIVATION", status: { t: "Awaiting baseline", c: "p-cyan" }, path: "projects/myhobbyplan/marketing/campaigns/c2-us-english-launch/", steps: ["Approved","Record built","Listing converts (C1)","Reviews program","Community presence","Results + learnings"] },
+      { id: "C3", name: "Localization Wave", obj: "Japan → Germany/Korea localized listings", funnel: "CONVERSION", status: { t: "Translation pack ready · await submission", c: "p-amber" }, path: "projects/myhobbyplan/marketing/campaigns/c3-localization-wave/", steps: ["Approved","Record built","Translation pack live","Native quality check","Local keyword research","Per-locale listings"] },
+      { id: "C4", name: "Kenya Community", obj: "Brand proof + zero-cost community presence", funnel: "AWARENESS → ADVOCACY", status: { t: "Starts after C1 baseline", c: "p-grey" }, path: "projects/myhobbyplan/marketing/campaigns/c4-kenya-community/", steps: ["Approved","Record built","C1 baseline","Founder story","Community presence","Results + learnings"] }
     ],
     blockers: [
       { lvl: "red", ico: "🔴", title: "Play Console baseline (CTR, impressions, search terms, geo mix) — UNKNOWN", sub: "Blocks C1 execution — no listing change before capture.", meta: "Owner: Edward" },
@@ -555,7 +555,8 @@
         "Develop recurring revenue opportunities",
         "Build partnerships and distribution channels",
         "Use data and experimentation to improve growth",
-        "Gradually build an AI-powered internal operating system"
+        "Gradually build an AI-powered internal operating system",
+        "GrowthOS v2.0 — operate as strictly isolated project business units under a corporate HQ (context firewall)"
       ]
     },
     experiments: [
@@ -965,7 +966,7 @@
       out.push({
         id: id, name: name, obj: r[1] || "", funnel: r[2] || "",
         status: { t: r[3] || "", c: chipOf(r[3]) },
-        path: old ? old.path : ("campaigns/" + slug(id) + "-" + slug(name) + "/"),
+        path: old ? old.path : ("projects/myhobbyplan/marketing/campaigns/" + slug(id) + "-" + slug(name) + "/"),
         steps: old ? old.steps : ["Approved", "Record built", "Baseline", "Execute", "Results", "Learnings"]
       });
     });

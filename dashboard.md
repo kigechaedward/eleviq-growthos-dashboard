@@ -33,7 +33,7 @@ Current  █░░░░░░░░░░░░░░░░░░░░░░�
 | **C3** — Localization Wave | Japan → Germany/Korea localized listings | CONVERSION | 🟡 APPROVED · translation pack ready → ⏳ Play Console submission |
 | **C4** — Kenya Community | Brand proof + zero-cost community presence | AWARENESS → ADVOCACY | ✅ APPROVED · record built · starts after C1 baseline |
 
-Each campaign lives in `campaigns/<name>/` (11-file record). Complete only when results + learnings are recorded.
+Each campaign lives in `projects/myhobbyplan/marketing/campaigns/<name>/` (11-file record). Complete only when results + learnings are recorded.
 
 ---
 
@@ -66,7 +66,7 @@ Each campaign lives in `campaigns/<name>/` (11-file record). Complete only when 
 | 1-day retention | `UNKNOWN` | No decline | Play Console |
 | Trial → paid | `UNKNOWN` | Monitor vs 4.8% benchmark | Play Console |
 
-Full baseline checklist: `marketing/analytics/myhobbyplan-play-console-baseline.md`
+Full baseline checklist: `projects/myhobbyplan/analytics/play-console-baseline.md`
 
 ---
 
@@ -121,6 +121,15 @@ None running. One element at a time, >= 7 days, 95% confidence.
 - **Canonical source:** `company/business-structure.md` (v1.1 · CURRENT).
 - **GrowthOS:** expanded command structure (2026-08-14) — 10 divisions, 40+ roles, tiered build order (T1 core intelligence · T2 revenue & distribution · T3 scale), three-level operating model (permanent agents · specialist skills · temporary campaign teams). Canonical spec: `company/growthos-architecture.md` (v1.0 · CURRENT).
 
+## 🧩 GrowthOS v2.0 — Project Isolation (IMPLEMENTED 2026-08-14)
+
+- **Architecture live:** `company/` = corporate HQ · `projects/<name>/` = isolated business units (MyHobbyPlan, Anitrace, LostNFoundHub) · campaigns/experiments live inside each project · `knowledge/` = organizational memory · `shared/` = reusable Level 3 material · `dashboard/corporate.md` + per-project dashboards at `projects/<name>/analytics/dashboard.md`.
+- **Context firewall:** no silent cross-project transfer; cross-project decisions recorded in `company/decisions.md` first.
+- **Routing loop:** What → COMPANY → PROJECT → STATUS → OBJECTIVE → DATA → AGENTS → ACTION.
+- **Agents:** 3 project managers (myhobbyplan-manager, anitrace-manager, lostnfoundhub-manager) + 19 corporate specialists added. Canonical spec: `AGENTS.md` (v2.0 · CURRENT).
+- **Commands:** `/company`, `/projects`, `/myhobbyplan`, `/anitrace`, `/lostnfoundhub`, `/new-project`, `/portfolio-review`, `/compare-projects` added; all commands now enforce context-first routing.
+- **Experiment register:** `projects/myhobbyplan/growth/experiments/register.md` (E1–E8).
+
 ---
 
 ## 📋 Recommended Next Actions
@@ -128,7 +137,7 @@ None running. One element at a time, >= 7 days, 95% confidence.
 1. ✅ Campaign records C1–C4 built (2026-08-14).
 2. ✅ **Pricing confirmed** — Free $0 · Pro Monthly $1.99/mo · Pro Yearly $19.99/yr (2026-08-14).
 3. ✅ **Translation pack ready** for Play Console submission — short desc "Plan hobbies with smart weather forecasts." (2026-08-14).
-4. ✅ **Listing copy drafted + marketing-reviewer pass** — VERDICT: APPROVE WITH EDITS (2026-08-14). Copy v2 in `campaigns/c1-aso-foundation/listing-copy-draft.md`.
+4. ✅ **Listing copy drafted + marketing-reviewer pass** — VERDICT: APPROVE WITH EDITS (2026-08-14). Copy v2 in `projects/myhobbyplan/marketing/campaigns/c1-aso-foundation/listing-copy-draft.md`.
 5. ⏳ **Edward:** approve listing copy v2 + answer 2 gates ("Good to Go" semantics; "schedule" claim — else copy uses "…around the weather and your preferences").
 6. ⏳ **Edward:** capture Play Console baseline numbers (12 metrics).
 7. ⏳ **Edward:** submit translation pack + approved listing copy in Play Console (submit once, final).
