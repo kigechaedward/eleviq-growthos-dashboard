@@ -118,7 +118,8 @@ None running. One element at a time, >= 7 days, 95% confidence.
 - **Divisions (9):** Software & Product Development · Web & Digital Solutions · AI & Intelligent Automation · Cloud & IT Solutions · Digital Marketing & Growth · Consulting · Proprietary Software Products · Partnerships & Business Development · Research & Innovation.
 - **Products:** MyHobbyPlan (ACTIVE · pricing CONFIRMED) · Anitrace (strategy pending) · LostNFoundHub (strategy pending) — independent product businesses under the Eleviq umbrella.
 - **Governance:** product decisions never auto-propagate across products; Edward is the final decision-maker.
-- **Canonical source:** `company/business-structure.md` (v1.0 · CURRENT).
+- **Canonical source:** `company/business-structure.md` (v1.1 · CURRENT).
+- **GrowthOS:** expanded command structure (2026-08-14) — 10 divisions, 40+ roles, tiered build order (T1 core intelligence · T2 revenue & distribution · T3 scale), three-level operating model (permanent agents · specialist skills · temporary campaign teams). Canonical spec: `company/growthos-architecture.md` (v1.0 · CURRENT).
 
 ---
 

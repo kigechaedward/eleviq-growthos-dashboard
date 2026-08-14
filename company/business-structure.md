@@ -1,8 +1,9 @@
 # Eleviq Technologies — Master Business Structure
 
-> Version: 1.0
+> Version: 1.1
 > Status: CURRENT — current working business architecture (Level 1 corporate context)
 > Purpose: Canonical business context for Eleviq GrowthOS and other Eleviq AI agents
+> v1.1 (2026-08-14): GrowthOS command structure expanded to 30+ roles — see `growthos-architecture.md`.
 
 ---
 
@@ -691,30 +692,61 @@ Its purpose is to help Eleviq:
 - Learn
 - Improve
 
-GrowthOS should function as an AI marketing organization rather than merely a content generator.
+GrowthOS should function as an AI marketing organization — a small virtual marketing company — rather than merely a content generator.
+
+The full architecture (command tree, 30+ roles, build tiers, operating model, end goal) is defined in **`growthos-architecture.md`** (CURRENT, approved 2026-08-14).
 
 ---
 
 ## 19. GrowthOS command structure
 
 ```text
-ELEVİQ MARKETING COMMANDER
-│
-├── Marketing Strategist
-├── Market Researcher
-├── Competitor Intelligence
-├── Content Strategist
-├── Social Media Strategist
-├── Creative Director
-├── SEO / Growth
-├── Growth Experimenter
-├── Analytics Strategist
-├── Partnership Strategist
-├── Copywriter
-└── Marketing Reviewer
+                         ELEVİQ GROWTH COMMANDER
+                                  │
+       ┌──────────────────────────┼──────────────────────────┐
+       │                          │                          │
+   STRATEGY                    GROWTH                    INTELLIGENCE
+       │                          │                          │
+       ├─ Marketing Strategist    ├─ Growth Hacker           ├─ Market Researcher
+       ├─ Product Marketer        ├─ CRO Specialist          ├─ Competitor Intel
+       ├─ Brand Strategist        ├─ Funnel Architect        ├─ Trend Scout
+       └─ GTM Strategist          ├─ Retention Specialist    └─ Customer Researcher
+                                  └─ Experiment Manager
+       │
+       ├────────────────────────────────────────────────────────
+       │
+    CONTENT                    DISTRIBUTION               CREATIVE
+       │                          │                          │
+       ├─ Content Strategist      ├─ Social Strategist       ├─ Creative Director
+       ├─ Copywriter              ├─ SEO Specialist          ├─ Video Strategist
+       ├─ Storyteller             ├─ Community Manager       ├─ Graphic Design
+       ├─ Technical Writer        ├─ Email Marketing         └─ Brand Guardian
+       └─ PR / Communications     └─ App Store Optimization
+
+       ├────────────────────────────────────────────────────────
+       │
+     SALES                    PARTNERSHIPS                 DATA
+       │                          │                          │
+       ├─ Sales Strategist        ├─ Partnership Scout       ├─ Marketing Analyst
+       ├─ Lead Generation         ├─ B2B Partnerships        ├─ Attribution Analyst
+       ├─ Lead Qualification      ├─ Institutional BD        ├─ Revenue Analyst
+       └─ Proposal Specialist     └─ Investor Relations      └─ Forecasting
+
+       └────────────────────────────────────────────────────────
+
+                    GOVERNANCE / QUALITY / OPERATIONS
+                                  │
+                 ├─ Marketing Reviewer
+                 ├─ Fact Checker
+                 ├─ Compliance Reviewer
+                 ├─ Campaign Manager
+                 ├─ Knowledge Manager
+                 └─ Growth Operations
 ```
 
 The Commander coordinates the specialists. Edward remains the final strategic decision-maker.
+
+Build order is tiered — **Tier 1: Core intelligence** (Commander, Marketing Strategist, Product Marketing Manager, Market Researcher, Customer Researcher, Competitor Intelligence, Content Strategist, SEO/Growth, Growth Experimenter, Marketing Analytics, Marketing Reviewer, Knowledge Manager); **Tier 2: Revenue & distribution**; **Tier 3: Scale**. Roles operate on three levels — permanent agents, specialist skills, and temporary campaign teams. Full detail: `growthos-architecture.md`.
 
 ---
 

@@ -220,6 +220,26 @@
   .eng { border-left: 3px solid var(--cyan); padding: .35rem 0 .35rem .8rem; }
   .eng h4 { font-size: .84rem; color: var(--text); margin-bottom: .25rem; }
   .eng p { font-size: .76rem; color: var(--muted); line-height: 1.55; margin: 0; }
+  .org-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .7rem; }
+  .orgc { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: .75rem .85rem; }
+  .orgc .og { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--cyan); margin-bottom: .5rem; font-weight: 600; }
+  .orgc .role { font-size: .76rem; color: var(--muted); padding: .26rem 0 .26rem .35rem; border-bottom: 1px dashed var(--border); display: flex; gap: .4rem; align-items: baseline; }
+  .orgc .role:last-child { border-bottom: none; }
+  .orgc .role .tier { font-family: var(--mono); font-size: .6rem; margin-left: auto; flex-shrink: 0; }
+  .orgc .role .tier.t1 { color: var(--green); }
+  .orgc .role .tier.t2 { color: var(--cyan); }
+  .orgc .role .tier.t3 { color: var(--amber); }
+  .tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+  .tierc { border-left: 3px solid var(--border-2); padding: .2rem 0 .2rem .85rem; }
+  .tierc.t1 { border-left-color: var(--green); }
+  .tierc.t2 { border-left-color: var(--cyan); }
+  .tierc.t3 { border-left-color: var(--amber); }
+  .tierc h4 { font-size: .84rem; color: var(--text); margin-bottom: .3rem; }
+  .tierc p { font-size: .73rem; color: var(--dim); margin: 0 0 .45rem; }
+  .loop { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; font-family: var(--mono); font-size: .74rem; }
+  .loop .step { border: 1px solid var(--border-2); padding: .28rem .6rem; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+  .loop .step b { color: var(--text); }
+  .loop .arr { color: var(--dim); }
   .learn { padding: 1rem 1.15rem; }
   .learn .tag { font-size: .66rem; text-transform: uppercase; letter-spacing: .09em; color: var(--cyan); font-weight: 700; }
   .learn p { font-size: .84rem; color: var(--muted); margin-top: .3rem; }
@@ -412,10 +432,24 @@
       <div class="card card-pad"><div class="eng" style="border-left-color:var(--cyan)"><h4>Engine 2 — Products</h4><p>SaaS / premium / enterprise subscriptions, team plans, licensing, partnerships, institutional contracts, API revenue. Produces proprietary IP, recurring revenue, scalability.</p></div></div>
     </div>
 
-    <div class="sec-head" style="margin-top:1.5rem"><h2>Marketing & Command Structure</h2><span class="sub">shared strategic function · commander coordinates specialists · Edward decides</span></div>
+    <div class="sec-head" style="margin-top:1.5rem"><h2>Marketing Organization</h2><span class="sub">shared strategic function serving the corporate brand + products</span></div>
+    <div class="card card-pad"><div id="mkt-org"></div></div>
+
+    <div class="sec-head" style="margin-top:1.5rem"><h2>GrowthOS Command Structure</h2><span class="sub">10 divisions · tier badges = build order · full spec: company/growthos-architecture.md</span></div>
+    <div class="org-grid" id="org-grid"></div>
+
+    <div class="sec-head" style="margin-top:1.5rem"><h2>Build Order</h2><span class="sub">tiered rollout — don't build all roles immediately</span></div>
+    <div class="tier-grid" id="tier-grid"></div>
+
+    <div class="sec-head" style="margin-top:1.5rem"><h2>Operating Model</h2><span class="sub">three levels keep the environment clean and scalable</span></div>
     <div class="cols2">
-      <div class="card card-pad"><h4 class="lbl">Marketing Organization</h4><div id="mkt-org"></div></div>
-      <div class="card card-pad"><h4 class="lbl">GrowthOS Command</h4><div id="cmd-list"></div></div>
+      <div class="card card-pad"><h4 class="lbl">Three levels</h4><div id="op-model"></div></div>
+      <div class="card card-pad"><h4 class="lbl">Temporary campaign team — e.g. "Launch Anitrace in Kenya"</h4><div id="camp-team"></div></div>
+    </div>
+
+    <div class="card card-pad" style="margin-top:1rem">
+      <div class="chart-head"><div><h3>End Goal — Virtual Marketing Company</h3><div class="sub">continuous loop: review → measure → learn → update strategy</div></div></div>
+      <div class="loop" id="loop"></div>
     </div>
 
     <div class="card card-pad" style="margin-top:1rem">
@@ -492,7 +526,27 @@
         { name: "LostNFoundHub", cat: "B2B2C · lost-and-found platform", status: "STRATEGY PENDING", focus: "Connect individuals and institutions around lost and found property", model: "Institutional · pricing UNKNOWN", channel: "Institutions · Kenya / Africa", kpi: "Matches & recoveries" }
       ],
       mktOrg: ["Corporate Marketing", "Product Marketing (MyHobbyPlan · Anitrace · LostNFoundHub)", "Content", "Social Media", "SEO", "Paid Advertising", "Growth", "Analytics", "Partnerships", "PR", "Brand"],
-      command: ["Marketing Strategist", "Market Researcher", "Competitor Intelligence", "Content Strategist", "Social Media Strategist", "Creative Director", "SEO / Growth", "Growth Experimenter", "Analytics Strategist", "Partnership Strategist", "Copywriter", "Marketing Reviewer"],
+      orgs: [
+        { g: "STRATEGY", roles: [{ r: "Marketing Strategist" }, { r: "Product Marketer" }, { r: "GTM Strategist" }, { r: "Brand Strategist" }] },
+        { g: "GROWTH", roles: [{ r: "Growth Hacker" }, { r: "CRO Specialist" }, { r: "Funnel Architect" }, { r: "Retention Specialist" }, { r: "Experiment Manager" }] },
+        { g: "INTELLIGENCE", roles: [{ r: "Market Researcher" }, { r: "Competitor Intel" }, { r: "Customer Researcher" }, { r: "Trend Scout" }, { r: "ICP / Persona Agent" }] },
+        { g: "CONTENT", roles: [{ r: "Content Strategist" }, { r: "Copywriter" }, { r: "Storyteller" }, { r: "Technical Writer" }, { r: "PR / Communications" }] },
+        { g: "DISTRIBUTION", roles: [{ r: "Social Strategist" }, { r: "SEO Specialist" }, { r: "Community Manager" }, { r: "Email Marketing" }, { r: "App Store Optimization" }] },
+        { g: "CREATIVE", roles: [{ r: "Creative Director" }, { r: "Video Strategist" }, { r: "Graphic Design" }, { r: "Brand Guardian" }] },
+        { g: "SALES", roles: [{ r: "Sales Strategist" }, { r: "Lead Generation" }, { r: "Lead Qualification" }, { r: "Proposal Specialist" }] },
+        { g: "PARTNERSHIPS", roles: [{ r: "Partnership Scout" }, { r: "B2B Partnerships" }, { r: "Institutional BD" }, { r: "Investor Relations" }] },
+        { g: "DATA", roles: [{ r: "Marketing Analyst" }, { r: "Attribution Analyst" }, { r: "Revenue Analyst" }, { r: "Forecasting" }] },
+        { g: "GOVERNANCE / QUALITY / OPS", roles: [{ r: "Marketing Reviewer" }, { r: "Fact Checker" }, { r: "Compliance Reviewer" }, { r: "Campaign Manager" }, { r: "Knowledge Manager" }, { r: "Growth Operations" }] }
+      ],
+      tiers: { "Marketing Strategist": "T1", "Product Marketer": "T1", "Market Researcher": "T1", "Competitor Intel": "T1", "Customer Researcher": "T1", "Content Strategist": "T1", "SEO Specialist": "T1", "Growth Experimenter": "T1", "Marketing Analyst": "T1", "Marketing Reviewer": "T1", "Knowledge Manager": "T1", "CRO Specialist": "T2", "Funnel Architect": "T2", "Retention Specialist": "T2", "Lead Generation": "T2", "Lead Qualification": "T2", "Partnership Scout": "T2", "App Store Optimization": "T2", "Community Manager": "T2", "Proposal Specialist": "T2", "PR / Communications": "T3", "Trend Scout": "T3", "Investor Relations": "T3" },
+      build: {
+        t1: ["Eleviq Commander", "Marketing Strategist", "Product Marketing Manager", "Market Researcher", "Customer Researcher", "Competitor Intelligence", "Content Strategist", "SEO/Growth", "Growth Experimenter", "Marketing Analytics", "Marketing Reviewer", "Knowledge Manager"],
+        t2: ["Funnel Architect", "CRO Specialist", "Retention/Lifecycle", "Lead Generation", "Lead Qualification", "Partnership Strategist", "Pricing Strategist", "Offer Architect", "Sales/Proposal", "App Store Optimization", "Community Manager"],
+        t3: ["Founder Brand", "PR/Communications", "Influencer/Creator Partnerships", "Investor Relations", "Market Expansion", "Localization", "Marketing Automation", "Financial/Unit Economics", "Trend Scout", "Social Listening", "Reputation Management"]
+      },
+      opModel: ["Permanent Agents — always-on core specialists", "Specialist Skills — on-demand capabilities loaded when needed", "Temporary Campaign Teams — assembled per campaign, disbanded after"],
+      campaignTeam: ["Product Marketer", "Market Researcher", "Customer Researcher", "Competitor Analyst", "Partnership Strategist", "Content Strategist", "Social Strategist", "Creative Director", "SEO Specialist", "PR Agent", "Growth Experimenter", "Analytics Agent", "Reviewer"],
+      loop: ["EDWARD", "COMMANDER", "STRATEGY + EXECUTION", "REVIEW", "MEASURE", "LEARN", "UPDATE STRATEGY"],
       direction: [
         "Strengthen Eleviq Technologies as a technology company",
         "Develop and commercialize proprietary software products",
@@ -736,7 +790,25 @@
       pg.appendChild(card);
     });
     el("mkt-org").innerHTML = c.mktOrg.map(function (m) { return '<span class="tag">' + m + "</span>"; }).join("");
-    el("cmd-list").innerHTML = c.command.map(function (m) { return '<span class="tag">' + m + "</span>"; }).join("");
+    el("org-grid").innerHTML = c.orgs.map(function (o) {
+      var roles = o.roles.map(function (x) {
+        var t = c.tiers[x.r];
+        return '<div class="role"><span>' + x.r + "</span>" + (t ? '<span class="tier ' + t.toLowerCase() + '">' + t + "</span>" : "") + "</div>";
+      }).join("");
+      return '<div class="orgc"><div class="og">' + o.g + "</div>" + roles + "</div>";
+    }).join("");
+    el("tier-grid").innerHTML = [
+      ["t1", "Tier 1 — Core intelligence", "Build first", c.build.t1],
+      ["t2", "Tier 2 — Revenue & distribution", "Then", c.build.t2],
+      ["t3", "Tier 3 — Scale", "Once the system is working", c.build.t3]
+    ].map(function (t) {
+      return '<div class="tierc ' + t[0] + '"><h4>' + t[1] + "</h4><p>" + t[2] + "</p><div>" + t[3].map(function (r) { return '<span class="tag">' + r + "</span>"; }).join("") + "</div></div>";
+    }).join("");
+    el("op-model").innerHTML = c.opModel.map(function (m) {
+      return '<div class="eng" style="border-left-color:var(--cyan);padding:.25rem 0 .25rem .7rem;margin-bottom:.5rem"><p>' + m + "</p></div>";
+    }).join("");
+    el("camp-team").innerHTML = c.campaignTeam.map(function (r) { return '<span class="tag">' + r + "</span>"; }).join("");
+    el("loop").innerHTML = c.loop.map(function (s, i) { return (i ? '<span class="arr">→</span>' : "") + '<span class="step"><b>' + s + "</b></span>"; }).join("");
     el("dir-list").innerHTML = c.direction.map(function (d, i) { return "<li><b>" + (i + 1) + ".</b> " + d + "</li>"; }).join("");
   }
 
