@@ -28,9 +28,9 @@ Current  █░░░░░░░░░░░░░░░░░░░░░░�
 
 | Campaign | Objective | Funnel | Status |
 |---|---|---|---|
-| **C1** — ASO Foundation | Audit + fix listing (title currently has no keyword); lift CTR/conversion | CONSIDERATION → CONVERSION | ✅ APPROVED · record built → ⏳ baseline + pricing |
-| **C2** — US/English Launch | 2,000 installs, US-first (English live, zero cost) | AWARENESS → ACTIVATION | ✅ APPROVED · record built → ⏳ baseline + pricing |
-| **C3** — Localization Wave | Japan → Germany/Korea localized listings | CONVERSION | 🟡 APPROVED · record built · blocked on translation pack review |
+| **C1** — ASO Foundation | Audit + fix listing (title currently has no keyword); lift CTR/conversion | CONSIDERATION → CONVERSION | ✅ APPROVED · copy drafted + reviewed → ⏳ Edward approval + baseline |
+| **C2** — US/English Launch | 2,000 installs, US-first (English live, zero cost) | AWARENESS → ACTIVATION | ✅ APPROVED · record built → ⏳ baseline |
+| **C3** — Localization Wave | Japan → Germany/Korea localized listings | CONVERSION | 🟡 APPROVED · translation pack ready → ⏳ Play Console submission |
 | **C4** — Kenya Community | Brand proof + zero-cost community presence | AWARENESS → ADVOCACY | ✅ APPROVED · record built · starts after C1 baseline |
 
 Each campaign lives in `campaigns/<name>/` (11-file record). Complete only when results + learnings are recorded.
@@ -41,9 +41,17 @@ Each campaign lives in `campaigns/<name>/` (11-file record). Complete only when 
 
 | Blocker | Blocks | Who / What |
 |---|---|---|
-| 🔴 Subscription pricing (tiers + price points) `UNKNOWN` | Final listing copy | Edward |
 | 🔴 Play Console baseline (CTR, impressions, search terms, geo mix) `UNKNOWN` | C1 execution — no listing change before capture | Edward |
-| 🟡 Translation pack **under Google Play review** | C3 + any metadata edit (each edit resets review) | Confirm outcome + timing |
+| 🟡 C1 copy approval — 2 gates: confirm "Good to Go" semantics + "schedule" claim | Play Console submission | Edward |
+| 🟡 Translation pack ready but not submitted | C3 + any metadata edit (each edit resets review) | Edward — submit in Play Console |
+
+## 💰 MyHobbyPlan Pricing — CONFIRMED (2026-08-14)
+
+| Tier | Price | Highlights |
+|---|---|---|
+| Free | $0 | Up to 5 hobbies · 3-day forecast · basic planning/reminders · limited AI suggestions |
+| Pro Monthly | $1.99/month | Unlimited hobbies · 14-day forecast · AI planning assistant · smart prep recommendations · intelligent reminders · advanced weather insights · weekly AI planning · unlimited AI suggestions · advanced weather preferences · no ads |
+| Pro Yearly | $19.99/year | Same as Pro · ~$3.89 saved vs monthly (~16%) · optional 7-day trial for eligible new subscribers |
 
 ---
 
@@ -106,7 +114,10 @@ None running. One element at a time, >= 7 days, 95% confidence.
 ## 📋 Recommended Next Actions
 
 1. ✅ Campaign records C1–C4 built (2026-08-14).
-2. ⏳ **Edward:** confirm subscription pricing (free/premium + price points).
-3. ⏳ **Edward:** capture Play Console baseline numbers.
-4. ⏳ **Edward:** confirm translation pack review outcome + timing.
-5. ▶️ Commander drafts listing copy (title, short desc, full desc) for Edward's approval once pricing confirmed.
+2. ✅ **Pricing confirmed** — Free $0 · Pro Monthly $1.99/mo · Pro Yearly $19.99/yr (2026-08-14).
+3. ✅ **Translation pack ready** for Play Console submission — short desc "Plan hobbies with smart weather forecasts." (2026-08-14).
+4. ✅ **Listing copy drafted + marketing-reviewer pass** — VERDICT: APPROVE WITH EDITS (2026-08-14). Copy v2 in `campaigns/c1-aso-foundation/listing-copy-draft.md`.
+5. ⏳ **Edward:** approve listing copy v2 + answer 2 gates ("Good to Go" semantics; "schedule" claim — else copy uses "…around the weather and your preferences").
+6. ⏳ **Edward:** capture Play Console baseline numbers (12 metrics).
+7. ⏳ **Edward:** submit translation pack + approved listing copy in Play Console (submit once, final).
+8. ▶️ Commander: sync records → site/ → push to GitHub Pages after Edward's inputs.

@@ -385,6 +385,7 @@
     baseline: 50,
     phases: [ {wk:4, at:500}, {wk:8, at:1000}, {wk:10, at:1500}, {wk:12, at:2000} ],
     kpis: [
+      { label: "Pro pricing (confirmed)", val: "$1.99/mo", note: "Free $0 · Yearly $19.99", target: "7-day trial (eligible)", src: "Edward · 2026-08-14 (FACT)", bar: 100, barCls: "lime", planned: true },
       { label: "Installs (lifetime)", val: "50+", note: "of 2,000", target: "Wk4: 500 · Wk12: 2,000", src: "Live listing (FACT)", bar: 2.5, barCls: "lime", planned: true },
       { label: "Rating", val: "—", note: "none shown", target: "≥ 4.0 hold", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false },
       { label: "Store listing CTR", val: "—", note: "no data", target: "Above peers' median", src: "Play Console · UNKNOWN", bar: 0, barCls: "grey", planned: false },
@@ -400,15 +401,15 @@
     ],
     warn: ["India", "Brazil", "Indonesia", "Mexico", "Turkey", "Egypt"],
     campaigns: [
-      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Awaiting baseline + pricing", c: "p-cyan" }, path: "campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
-      { id: "C2", name: "US/English Launch", obj: "2,000 installs, US-first (English live, zero cost)", funnel: "AWARENESS → ACTIVATION", status: { t: "Awaiting baseline + pricing", c: "p-cyan" }, path: "campaigns/c2-us-english-launch/", steps: ["Approved","Record built","Listing converts (C1)","Reviews program","Community presence","Results + learnings"] },
-      { id: "C3", name: "Localization Wave", obj: "Japan → Germany/Korea localized listings", funnel: "CONVERSION", status: { t: "Blocked · translation pack review", c: "p-amber" }, path: "campaigns/c3-localization-wave/", steps: ["Approved","Record built","Translation pack live","Native quality check","Local keyword research","Per-locale listings"] },
+      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Copy ready · await approval + baseline", c: "p-cyan" }, path: "campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
+      { id: "C2", name: "US/English Launch", obj: "2,000 installs, US-first (English live, zero cost)", funnel: "AWARENESS → ACTIVATION", status: { t: "Awaiting baseline", c: "p-cyan" }, path: "campaigns/c2-us-english-launch/", steps: ["Approved","Record built","Listing converts (C1)","Reviews program","Community presence","Results + learnings"] },
+      { id: "C3", name: "Localization Wave", obj: "Japan → Germany/Korea localized listings", funnel: "CONVERSION", status: { t: "Translation pack ready · await submission", c: "p-amber" }, path: "campaigns/c3-localization-wave/", steps: ["Approved","Record built","Translation pack live","Native quality check","Local keyword research","Per-locale listings"] },
       { id: "C4", name: "Kenya Community", obj: "Brand proof + zero-cost community presence", funnel: "AWARENESS → ADVOCACY", status: { t: "Starts after C1 baseline", c: "p-grey" }, path: "campaigns/c4-kenya-community/", steps: ["Approved","Record built","C1 baseline","Founder story","Community presence","Results + learnings"] }
     ],
     blockers: [
-      { lvl: "red", ico: "🔴", title: "Subscription pricing (tiers + price points) — UNKNOWN", sub: "Blocks final listing copy.", meta: "Owner: Edward" },
       { lvl: "red", ico: "🔴", title: "Play Console baseline (CTR, impressions, search terms, geo mix) — UNKNOWN", sub: "Blocks C1 execution — no listing change before capture.", meta: "Owner: Edward" },
-      { lvl: "yellow", ico: "🟡", title: "Translation pack under Google Play review", sub: "Blocks C3 and any metadata edit — each edit resets review.", meta: "Action: confirm outcome + timing" }
+      { lvl: "yellow", ico: "🟡", title: "C1 copy approval — 2 gates: \"Good to Go\" semantics + \"schedule\" claim", sub: "Blocks Play Console submission.", meta: "Owner: Edward · copy v2 reviewed" },
+      { lvl: "yellow", ico: "🟡", title: "Translation pack ready but not submitted", sub: "Blocks C3 and any metadata edit — each edit resets review.", meta: "Action: Edward submits in Play Console" }
     ],
     experiments: [
       ["E1", "Icon A/B", "C1"], ["E2", "Short description A/B", "C1"], ["E3", "First screenshot A/B", "C1"],
@@ -435,10 +436,13 @@
     ],
     actions: [
       { txt: "Campaign records C1–C4 built", owner: "done · 2026-08-14", done: true },
-      { txt: "Confirm subscription pricing (free/premium + price points)", owner: "Edward", done: false },
-      { txt: "Capture Play Console baseline numbers", owner: "Edward", done: false },
-      { txt: "Confirm translation pack review outcome + timing", owner: "Edward", done: false },
-      { txt: "Draft listing copy (title, short desc, full desc) for approval", owner: "Commander", done: false }
+      { txt: "Pricing confirmed — Free $0 · Pro $1.99/mo · Pro $19.99/yr", owner: "done · 2026-08-14", done: true },
+      { txt: "Translation pack ready — short desc \"Plan hobbies with smart weather forecasts.\"", owner: "done · 2026-08-14", done: true },
+      { txt: "Listing copy v2 drafted + marketing-reviewer pass (APPROVE WITH EDITS)", owner: "done · 2026-08-14", done: true },
+      { txt: "Approve listing copy v2 + answer 2 gates (\"Good to Go\" semantics; \"schedule\" claim)", owner: "Edward", done: false },
+      { txt: "Capture Play Console baseline numbers (12 metrics)", owner: "Edward", done: false },
+      { txt: "Submit translation pack + approved copy in Play Console (once, final)", owner: "Edward", done: false },
+      { txt: "Sync records → site/ → push to GitHub Pages", owner: "Commander", done: false }
     ]
   };
 
