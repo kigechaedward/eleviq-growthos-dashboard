@@ -435,7 +435,10 @@
     <div class="sec-head" style="margin-top:1.5rem"><h2>Marketing Organization</h2><span class="sub">shared strategic function serving the corporate brand + products</span></div>
     <div class="card card-pad"><div id="mkt-org"></div></div>
 
-    <div class="sec-head" style="margin-top:1.5rem"><h2>GrowthOS Command Structure</h2><span class="sub">10 divisions · tier badges = build order · full spec: company/growthos-architecture.md</span></div>
+    <div class="sec-head" style="margin-top:1.5rem"><h2>BusinessOS AI Organization</h2><span class="sub">parent AI Agent = AI CEO / Chief of Staff · departments mapped to existing agents (heads pending) · default agent: businessos-commander</span></div>
+    <div class="org-grid" id="bizorg-grid"></div>
+
+    <div class="sec-head" style="margin-top:1.5rem"><h2>GrowthOS Command Structure</h2><span class="sub">the MARKETING / GROWTH department of BusinessOS · 10 divisions · tier badges = build order · full spec: company/growthos-architecture.md</span></div>
     <div class="org-grid" id="org-grid"></div>
 
     <div class="sec-head" style="margin-top:1.5rem"><h2>Build Order</h2><span class="sub">tiered rollout — don't build all roles immediately</span></div>
@@ -527,9 +530,20 @@
         { name: "LostNFoundHub", cat: "B2B2C · lost-and-found platform", status: "STRATEGY PENDING", focus: "Connect individuals and institutions around lost and found property", model: "Institutional · pricing UNKNOWN", channel: "Institutions · Kenya / Africa", kpi: "Matches & recoveries" }
       ],
       mktOrg: ["Corporate Marketing", "Product Marketing (BusinessOS · MyHobbyPlan · Anitrace · LostNFoundHub)", "Content", "Social Media", "SEO", "Paid Advertising", "Growth", "Analytics", "Partnerships", "PR", "Brand"],
+      bizorg: [
+        { g: "EDWARD", roles: [{ r: "Final decision-maker" }] },
+        { g: "BUSINESSOS COMMANDER", roles: [{ r: "Parent AI Agent · AI CEO / Chief of Staff (businessos-commander)" }, { r: "Default agent · orchestration + approvals" }] },
+        { g: "STRATEGY", roles: [{ r: "corporate-strategist" }, { r: "product-marketing" }, { r: "offer-architect" }] },
+        { g: "MARKETING / GROWTH = GROWTHOS", roles: [{ r: "eleviq-commander (GrowthOS Commander)" }, { r: "All campaigns, content, social, SEO, growth, analytics" }] },
+        { g: "SALES", roles: [{ r: "lead-generation" }, { r: "lead-qualification" }, { r: "sales-proposals" }, { r: "business-development" }, { r: "partnership-strategist" }] },
+        { g: "FINANCE", roles: [{ r: "financial-strategist" }, { r: "pricing-strategist" }] },
+        { g: "OPERATIONS", roles: [{ r: "marketing-operations" }, { r: "knowledge-manager" }] },
+        { g: "CUSTOMER", roles: [{ r: "customer-researcher" }, { r: "retention-specialist" }] },
+        { g: "PRODUCT", roles: [{ r: "product-marketing" }, { r: "cro-specialist" }] },
+        { g: "INTELLIGENCE", roles: [{ r: "market-researcher" }, { r: "competitor-intelligence" }, { r: "fact-checker" }, { r: "pr-communications" }, { r: "founder-brand" }, { r: "brand-guardian" }] }
+      ],
       orgs: [
-        { g: "STRATEGY", roles: [{ r: "Marketing Strategist" }, { r: "Product Marketer" }, { r: "GTM Strategist" }, { r: "Brand Strategist" }] },
-        { g: "GROWTH", roles: [{ r: "Growth Hacker" }, { r: "CRO Specialist" }, { r: "Funnel Architect" }, { r: "Retention Specialist" }, { r: "Experiment Manager" }] },
+        { g: "STRATEGY", roles: [{ r: "Marketing Strategist" }, { r: "Product Marketer" }, { r: "GTM Strategist" }, { r: "Brand Strategist" }] },        { g: "GROWTH", roles: [{ r: "Growth Hacker" }, { r: "CRO Specialist" }, { r: "Funnel Architect" }, { r: "Retention Specialist" }, { r: "Experiment Manager" }] },
         { g: "INTELLIGENCE", roles: [{ r: "Market Researcher" }, { r: "Competitor Intel" }, { r: "Customer Researcher" }, { r: "Trend Scout" }, { r: "ICP / Persona Agent" }] },
         { g: "CONTENT", roles: [{ r: "Content Strategist" }, { r: "Copywriter" }, { r: "Storyteller" }, { r: "Technical Writer" }, { r: "PR / Communications" }] },
         { g: "DISTRIBUTION", roles: [{ r: "Social Strategist" }, { r: "SEO Specialist" }, { r: "Community Manager" }, { r: "Email Marketing" }, { r: "App Store Optimization" }] },
@@ -557,7 +571,8 @@
         "Build partnerships and distribution channels",
         "Use data and experimentation to improve growth",
         "Gradually build an AI-powered internal operating system",
-        "GrowthOS v2.0 — operate as strictly isolated project business units under a corporate HQ (context firewall)"
+        "GrowthOS v2.0 — operate as strictly isolated project business units under a corporate HQ (context firewall)",
+        "BusinessOS = the parent AI Agent (AI CEO / Chief of Staff); GrowthOS = its Marketing/Growth department"
       ]
     },
     experiments: [
@@ -591,7 +606,9 @@
       { txt: "Approve listing copy v2 + answer 2 gates (\"Good to Go\" semantics; \"schedule\" claim)", owner: "Edward", done: false },
       { txt: "Capture Play Console baseline numbers (12 metrics)", owner: "Edward", done: false },
       { txt: "Submit translation pack + approved copy in Play Console (once, final)", owner: "Edward", done: false },
-      { txt: "Sync records → site/ → push to GitHub Pages", owner: "Commander", done: false }
+      { txt: "Sync records → site/ → push to GitHub Pages", owner: "Commander", done: false },
+      { txt: "BusinessOS approved as product direction + design system created", owner: "done · 2026-08-15", done: true },
+      { txt: "BusinessOS = parent AI Agent; businessos-commander default; GrowthOS = Marketing/Growth dept", owner: "done · 2026-08-15", done: true }
     ]
   };
 
@@ -792,6 +809,12 @@
       pg.appendChild(card);
     });
     el("mkt-org").innerHTML = c.mktOrg.map(function (m) { return '<span class="tag">' + m + "</span>"; }).join("");
+    el("bizorg-grid").innerHTML = c.bizorg.map(function (o) {
+      var roles = o.roles.map(function (x) {
+        return '<div class="role"><span>' + x.r + "</span></div>";
+      }).join("");
+      return '<div class="orgc"><div class="og">' + o.g + "</div>" + roles + "</div>";
+    }).join("");
     el("org-grid").innerHTML = c.orgs.map(function (o) {
       var roles = o.roles.map(function (x) {
         var t = c.tiers[x.r];

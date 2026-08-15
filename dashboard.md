@@ -119,6 +119,7 @@ None running. One element at a time, >= 7 days, 95% confidence.
 - **Divisions (9):** Software & Product Development · Web & Digital Solutions · AI & Intelligent Automation · Cloud & IT Solutions · Digital Marketing & Growth · Consulting · Proprietary Software Products · Partnerships & Business Development · Research & Innovation.
 - **Products:** MyHobbyPlan (ACTIVE · pricing CONFIRMED) · Anitrace (strategy pending) · LostNFoundHub (strategy pending) — independent product businesses under the Eleviq umbrella.
 - **BusinessOS (CURRENT 2026-08-15):** Eleviq's productized AI workforce platform — "Your business. Your AI team. One command center." GrowthOS = its Phase 1 foundation + marketing/growth department. Build in 4 phases (foundation → missions/orchestration → integrations/automation → commercial SaaS). Active work: BusinessOS design system (foundation-first spec + `businessos-design-system` skill). Project unit: `projects/businessos/`. Design system: `projects/businessos/design-system/`.
+- **BusinessOS = parent AI Agent (2026-08-15):** `businessos-commander` is the AI CEO / Chief of Staff, orchestrating all departments. GrowthOS (`eleviq-commander`) is the Marketing/Growth department. Departments documented and mapped to existing agents; department heads not created yet. Default agent is now `businessos-commander`.
 - **Governance:** product decisions never auto-propagate across products; Edward is the final decision-maker.
 - **Canonical source:** `company/business-structure.md` (v1.1 · CURRENT).
 - **GrowthOS:** expanded command structure (2026-08-14) — 10 divisions, 40+ roles, tiered build order (T1 core intelligence · T2 revenue & distribution · T3 scale), three-level operating model (permanent agents · specialist skills · temporary campaign teams). Canonical spec: `company/growthos-architecture.md` (v1.0 · CURRENT).
@@ -139,6 +140,27 @@ None running. One element at a time, >= 7 days, 95% confidence.
 - **Active milestone:** BusinessOS design system — foundation-first (tokens, visual language, command center, 15 core components) + `businessos-design-system` skill. Source: `projects/businessos/design-system/`.
 - **No app build started** (Phase decision: timeline/budget `UNKNOWN`).
 
+## 🧭 BusinessOS AI Organization (CURRENT 2026-08-15)
+
+```text
+EDWARD (final decision-maker)
+   │
+BUSINESSOS COMMANDER  (parent AI Agent · businessos-commander)
+   │
+   ├─ STRATEGY        corporate-strategist · product-marketing · offer-architect
+   ├─ MARKETING/GROWTH = GROWTHOS  (eleviq-commander)
+   ├─ SALES           lead-generation · lead-qualification · sales-proposals · business-development · partnership-strategist
+   ├─ FINANCE         financial-strategist · pricing-strategist
+   ├─ OPERATIONS      marketing-operations · knowledge-manager
+   ├─ CUSTOMER        customer-researcher · retention-specialist
+   ├─ PRODUCT         product-marketing · cro-specialist
+   └─ INTELLIGENCE    market-researcher · competitor-intelligence · fact-checker · pr-communications · founder-brand · brand-guardian
+```
+
+- Default opencode agent: `businessos-commander`. Marketing work routes to the GrowthOS Commander (`eleviq-commander`).
+- Project managers: `businessos-manager`, `myhobbyplan-manager`, `anitrace-manager`, `lostnfoundhub-manager`.
+- Departments mapped to existing agents; no department-head agents yet (decision 2026-08-15).
+
 ---
 
 ## 📋 Recommended Next Actions
@@ -152,3 +174,4 @@ None running. One element at a time, >= 7 days, 95% confidence.
 7. ⏳ **Edward:** submit translation pack + approved listing copy in Play Console (submit once, final).
 8. ▶️ Commander: sync records → site/ → push to GitHub Pages after Edward's inputs.
 9. ✅ BusinessOS approved as product direction + project unit + design system created (2026-08-15) — [NEW]
+10. ✅ BusinessOS = parent AI Agent; `businessos-commander` created + default; GrowthOS = Marketing/Growth department; dashboards restructured (2026-08-15) — [NEW]
