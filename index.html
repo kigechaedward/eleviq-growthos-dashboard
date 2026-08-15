@@ -556,14 +556,13 @@
     ],
     warn: ["India", "Brazil", "Indonesia", "Mexico", "Turkey", "Egypt"],
     campaigns: [
-      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Copy ready · await approval + baseline", c: "p-cyan" }, path: "projects/myhobbyplan/marketing/campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
+      { id: "C1", name: "ASO Foundation", obj: "Audit + fix listing (title has no keyword); lift CTR/conversion", funnel: "CONSIDERATION → CONVERSION", status: { t: "Approved · await baseline", c: "p-cyan" }, path: "projects/myhobbyplan/marketing/campaigns/c1-aso-foundation/", steps: ["Approved","Record built","Baseline captured","Listing update","Experiments","Learnings"] },
       { id: "C2", name: "US/English Launch", obj: "2,000 installs, US-first (English live, zero cost)", funnel: "AWARENESS → ACTIVATION", status: { t: "Awaiting baseline", c: "p-cyan" }, path: "projects/myhobbyplan/marketing/campaigns/c2-us-english-launch/", steps: ["Approved","Record built","Listing converts (C1)","Reviews program","Community presence","Results + learnings"] },
       { id: "C3", name: "Localization Wave", obj: "Japan → Germany/Korea localized listings", funnel: "CONVERSION", status: { t: "Translation pack ready · await submission", c: "p-amber" }, path: "projects/myhobbyplan/marketing/campaigns/c3-localization-wave/", steps: ["Approved","Record built","Translation pack live","Native quality check","Local keyword research","Per-locale listings"] },
       { id: "C4", name: "Kenya Community", obj: "Brand proof + zero-cost community presence", funnel: "AWARENESS → ADVOCACY", status: { t: "Starts after C1 baseline", c: "p-grey" }, path: "projects/myhobbyplan/marketing/campaigns/c4-kenya-community/", steps: ["Approved","Record built","C1 baseline","Founder story","Community presence","Results + learnings"] }
     ],
     blockers: [
       { lvl: "red", ico: "🔴", title: "Play Console baseline (CTR, impressions, search terms, geo mix) — UNKNOWN", sub: "Blocks C1 execution — no listing change before capture.", meta: "Owner: Edward" },
-      { lvl: "yellow", ico: "🟡", title: "C1 copy approval — 2 gates: \"Good to Go\" semantics + \"schedule\" claim", sub: "Blocks Play Console submission.", meta: "Owner: Edward · copy v2 reviewed" },
       { lvl: "yellow", ico: "🟡", title: "Translation pack ready but not submitted", sub: "Blocks C3 and any metadata edit — each edit resets review.", meta: "Action: Edward submits in Play Console" }
     ],
     company: {
@@ -658,7 +657,7 @@
       { txt: "Pricing confirmed — Free $0 · Pro $1.99/mo · Pro $19.99/yr", owner: "done · 2026-08-14", done: true },
       { txt: "Translation pack ready — short desc \"Plan hobbies with smart weather forecasts.\"", owner: "done · 2026-08-14", done: true },
       { txt: "Listing copy v2 drafted + marketing-reviewer pass (APPROVE WITH EDITS)", owner: "done · 2026-08-14", done: true },
-      { txt: "Approve listing copy v2 + answer 2 gates (\"Good to Go\" semantics; \"schedule\" claim)", owner: "Edward", done: false },
+      { txt: "Listing copy v3 approved — Gate 1 OK (suitability, not safety); Gate 2 schedule claim dropped", owner: "done · 2026-08-15", done: true },
       { txt: "Capture Play Console baseline numbers (12 metrics)", owner: "Edward", done: false },
       { txt: "Submit translation pack + approved copy in Play Console (once, final)", owner: "Edward", done: false },
       { txt: "Sync records → site/ → push to GitHub Pages", owner: "Commander", done: false },

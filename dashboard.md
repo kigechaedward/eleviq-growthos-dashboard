@@ -29,7 +29,7 @@ Current  █░░░░░░░░░░░░░░░░░░░░░░�
 
 | Campaign | Objective | Funnel | Status |
 |---|---|---|---|
-| **C1** — ASO Foundation | Audit + fix listing (title currently has no keyword); lift CTR/conversion | CONSIDERATION → CONVERSION | ✅ APPROVED · copy drafted + reviewed → ⏳ Edward approval + baseline |
+| **C1** — ASO Foundation | Audit + fix listing (title currently has no keyword); lift CTR/conversion | CONSIDERATION → CONVERSION | ✅ APPROVED · copy v3 approved (2026-08-15) → ⏳ baseline + submission |
 | **C2** — US/English Launch | 2,000 installs, US-first (English live, zero cost) | AWARENESS → ACTIVATION | ✅ APPROVED · record built → ⏳ baseline |
 | **C3** — Localization Wave | Japan → Germany/Korea localized listings | CONVERSION | 🟡 APPROVED · translation pack ready → ⏳ Play Console submission |
 | **C4** — Kenya Community | Brand proof + zero-cost community presence | AWARENESS → ADVOCACY | ✅ APPROVED · record built · starts after C1 baseline |
@@ -43,7 +43,6 @@ Each campaign lives in `projects/myhobbyplan/marketing/campaigns/<name>/` (11-fi
 | Blocker | Blocks | Who / What |
 |---|---|---|
 | 🔴 Play Console baseline (CTR, impressions, search terms, geo mix) `UNKNOWN` | C1 execution — no listing change before capture | Edward |
-| 🟡 C1 copy approval — 2 gates: confirm "Good to Go" semantics + "schedule" claim | Play Console submission | Edward |
 | 🟡 Translation pack ready but not submitted | C3 + any metadata edit (each edit resets review) | Edward — submit in Play Console |
 
 ## 💰 MyHobbyPlan Pricing — CONFIRMED (2026-08-14)
@@ -169,7 +168,7 @@ BUSINESSOS COMMANDER  (parent AI Agent · businessos-commander)
 2. ✅ **Pricing confirmed** — Free $0 · Pro Monthly $1.99/mo · Pro Yearly $19.99/yr (2026-08-14).
 3. ✅ **Translation pack ready** for Play Console submission — short desc "Plan hobbies with smart weather forecasts." (2026-08-14).
 4. ✅ **Listing copy drafted + marketing-reviewer pass** — VERDICT: APPROVE WITH EDITS (2026-08-14). Copy v2 in `projects/myhobbyplan/marketing/campaigns/c1-aso-foundation/listing-copy-draft.md`.
-5. ⏳ **Edward:** approve listing copy v2 + answer 2 gates ("Good to Go" semantics; "schedule" claim — else copy uses "…around the weather and your preferences").
+5. ✅ **Listing copy v3 approved by Edward (2026-08-15)** — Gate 1 ("Good to Go" = suitability indication, not a safety guarantee) APPROVED; Gate 2 ("schedule" claim) dropped → copy uses "…around the weather and your preferences". Ready for Play Console after baseline capture.
 6. ⏳ **Edward:** capture Play Console baseline numbers (12 metrics).
 7. ⏳ **Edward:** submit translation pack + approved listing copy in Play Console (submit once, final).
 8. ▶️ Commander: sync records → site/ → push to GitHub Pages after Edward's inputs.
